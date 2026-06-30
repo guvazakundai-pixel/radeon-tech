@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --color-bg-dark: #0B0E14;
+  --color-navy: #0A1A3A;
+  --color-red-accent: #E2222A;
+  --color-gold-accent: #F2B705;
+  --color-gray-text: #9CA3AF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #E2222A;
+  color: #FFFFFF;
+}
