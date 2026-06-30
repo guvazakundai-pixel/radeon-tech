@@ -5,8 +5,10 @@ import About from "./components/About";
 import Services from "./components/Services";
 import WhyChooseUs from "./components/WhyChooseUs";
 import FeaturedProducts from "./components/FeaturedProducts";
+import Brands from "./components/Brands";
 import Process from "./components/Process";
 import Testimonials from "./components/Testimonials";
+import KnowledgeCentre from "./components/KnowledgeCentre";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -23,8 +25,10 @@ export default function App() {
         <Services />
         <WhyChooseUs />
         <FeaturedProducts />
+        <Brands />
         <Process />
         <Testimonials />
+        <KnowledgeCentre />
         <FAQ />
         <Contact />
       </main>

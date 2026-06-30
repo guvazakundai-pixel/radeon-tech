@@ -5,16 +5,19 @@ const quickLinks = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Products", href: "#products" },
+  { label: "Brands", href: "#brands" },
   { label: "Repairs", href: "#process" },
+  { label: "Knowledge", href: "#knowledge" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
 const socialLinks = [
-  { href: "#", label: "Facebook" },
-  { href: "#", label: "Twitter" },
-  { href: "#", label: "Instagram" },
-  { href: "#", label: "LinkedIn" },
+  { href: "https://facebook.com", label: "Facebook" },
+  { href: "https://twitter.com", label: "Twitter" },
+  { href: "https://instagram.com", label: "Instagram" },
+  { href: "https://linkedin.com", label: "LinkedIn" },
+  { href: "https://wa.me/263773066041", label: "WhatsApp" },
 ];
 
 export default function Footer() {
@@ -28,7 +31,13 @@ export default function Footer() {
               <span className="font-heading font-bold text-white text-lg">Radeon Tech</span>
             </a>
             <p className="text-gray-text text-sm leading-relaxed max-w-xs">
-              Zimbabwe's trusted computer repair, sales, and tech solutions company. Quality service, genuine parts, honest advice.
+              Your Stop ICT Solution Centre — Zimbabwe&apos;s trusted computer repair, sales, and tech solutions company.
+            </p>
+            <p className="mt-3 text-xs text-gray-text">
+              <span className="block">Cyrus Mall Shop C20, Cnr Mbuya Nehanda &amp; Speke</span>
+              <span className="block">Harare, Zimbabwe</span>
+              <span className="block mt-1">+263 77 306 6041</span>
+              <span className="block">mahunoobert85@gmail.com</span>
             </p>
           </div>
 
@@ -50,12 +59,14 @@ export default function Footer() {
 
           <div>
             <h4 className="font-heading font-semibold text-white text-sm mb-4">Connect With Us</h4>
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
-                  aria-label={s.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit our ${s.label} page`}
                   className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-text hover:text-red-accent hover:border-red-accent/50 transition-all no-underline"
                 >
                   <Globe size={18} />
@@ -63,8 +74,8 @@ export default function Footer() {
               ))}
             </div>
             <p className="mt-4 text-gray-text text-xs">
-              Phone: [PHONE NUMBER]<br />
-              Email: [EMAIL ADDRESS]
+              Phone: +263 77 306 6041<br />
+              Email: mahunoobert85@gmail.com
             </p>
           </div>
         </div>
@@ -73,7 +84,7 @@ export default function Footer() {
       <div className="border-t border-white/10 py-4">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-gray-text text-xs">
-            &copy; {new Date().getFullYear()} Radeon Tech Investments. All rights reserved.
+            &copy; 2026 Radeon Tech Investments. All rights reserved.
           </p>
           <a
             href="#home"

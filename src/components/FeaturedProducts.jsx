@@ -1,43 +1,26 @@
 import { motion } from "framer-motion";
-import { Laptop, Monitor, Cpu, Zap, Mouse, Gamepad2, Briefcase, ExternalLink } from "lucide-react";
+import { Laptop, Monitor, Gamepad2, Briefcase, HardDrive, MemoryStick, Mouse, Printer, ExternalLink } from "lucide-react";
 
 const products = [
-  {
-    icon: Laptop,
-    name: "Laptops",
-    desc: "New & refurbished laptops from HP, Dell, Lenovo, Acer, and more.",
-  },
-  {
-    icon: Monitor,
-    name: "Desktop Computers",
-    desc: "Custom-built and branded desktops for home, office, and gaming.",
-  },
-  {
-    icon: Cpu,
-    name: "SSD Storage",
-    desc: "High-speed SSDs to boost your system performance instantly.",
-  },
-  {
-    icon: Zap,
-    name: "RAM Upgrades",
-    desc: "Memory upgrades for faster multitasking and smoother performance.",
-  },
-  {
-    icon: Mouse,
-    name: "Computer Accessories",
-    desc: "Keyboards, mice, chargers, cables, and USB devices.",
-  },
-  {
-    icon: Gamepad2,
-    name: "Gaming PCs",
-    desc: "Performance gaming rigs built to your specifications.",
-  },
-  {
-    icon: Briefcase,
-    name: "Business Computers",
-    desc: "Reliable workstations for offices, schools, and enterprises.",
-  },
+  { icon: Laptop, name: "Laptops", desc: "New & refurbished laptops from HP, Dell, Lenovo, ASUS, Acer, Apple, and more. Fully tested and warrantied." },
+  { icon: Monitor, name: "Desktops", desc: "Branded and custom-built desktops for home, office, school, and enterprise use." },
+  { icon: Gamepad2, name: "Gaming PCs", desc: "High-performance gaming rigs built to your spec. RGB, liquid cooling, top-tier GPUs." },
+  { icon: Briefcase, name: "Business Workstations", desc: "Reliable workstations for offices, schools, NGOs, and enterprises. Bulk orders welcome." },
+  { icon: HardDrive, name: "SSDs", desc: "High-speed solid-state drives to boost boot times, load speeds, and overall system performance." },
+  { icon: MemoryStick, name: "RAM", desc: "Memory upgrades from 4GB to 64GB. Faster multitasking, smoother performance." },
+  { icon: Mouse, name: "Accessories", desc: "Keyboards, mice, chargers, cables, USB hubs, webcams, and all peripherals." },
+  { icon: Printer, name: "Printers", desc: "Inkjet and laser printers for home and office. Sales, setup, and cartridge supply." },
 ];
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
 
 export default function FeaturedProducts() {
   return (
@@ -50,25 +33,26 @@ export default function FeaturedProducts() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Featured <span className="text-red-accent">Products</span>
+            Browse Our <span className="text-red-accent">Range</span>
           </h2>
           <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
-            Explore our range of quality computers, components, and accessories.
+            Quality computers, components, and accessories — all backed by our service guarantee.
           </p>
           <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
         >
           {products.map((product) => (
-            <div
+            <motion.div
               key={product.name}
-              className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:-translate-y-1 hover:border-red-accent/50 transition-all duration-300 flex flex-col"
+              variants={cardVariants}
+              className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:-translate-y-1 hover:border-red-accent/50 hover:shadow-lg hover:shadow-red-accent/5 transition-all duration-300 flex flex-col"
             >
               <div className="w-14 h-14 rounded-xl bg-red-accent/10 flex items-center justify-center mb-4 group-hover:bg-red-accent/20 transition-colors">
                 <product.icon className="w-7 h-7 text-red-accent" />
@@ -80,17 +64,17 @@ export default function FeaturedProducts() {
                 {product.desc}
               </p>
               <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-gold-accent text-xs font-semibold mb-2">
-                  Price on request
-                </p>
+                <span className="inline-block px-3 py-1 text-xs font-semibold text-gold-accent bg-gold-accent/10 border border-gold-accent/30 rounded-full mb-3">
+                  Price on Request
+                </span>
                 <button
                   type="button"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-red-accent hover:text-white transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white bg-red-accent/10 hover:bg-red-accent border border-red-accent/30 hover:border-red-accent rounded-lg px-4 py-2 transition-all duration-300"
                 >
                   View Details <ExternalLink size={14} />
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
