@@ -48,7 +48,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="bg-bg-dark py-20 md:py-28">
+    <section id="contact" className="bg-bg-light-blue py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -56,13 +56,13 @@ export default function Contact() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Get In <span className="text-red-accent">Touch</span>
+          <h2 className="section-title text-center">
+            Get In <span className="text-royal-blue">Touch</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3 text-center">
             Ready to fix, upgrade, or buy? Reach out and we&apos;ll get back to you within hours.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
+          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <div className="mt-12 grid lg:grid-cols-2 gap-12">
@@ -72,57 +72,57 @@ export default function Contact() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="font-heading text-xl font-bold text-white mb-4">
+            <h3 className="font-heading text-xl font-bold text-text-primary mb-4">
               Contact Information
             </h3>
             <div className="space-y-4 text-sm">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-red-accent shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-royal-blue shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-medium">Address</p>
-                  <p className="text-gray-text">Cyrus Mall Shop C20</p>
-                  <p className="text-gray-text">Cnr Mbuya Nehanda &amp; Speke</p>
-                  <p className="text-gray-text">Harare, Zimbabwe</p>
+                  <p className="text-text-primary font-medium">Address</p>
+                  <p className="text-text-secondary">Cyrus Mall Shop C20</p>
+                  <p className="text-text-secondary">Cnr Mbuya Nehanda &amp; Speke</p>
+                  <p className="text-text-secondary">Harare, Zimbabwe</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-red-accent shrink-0 mt-0.5" />
+                <Phone className="w-5 h-5 text-royal-blue shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-medium">Phone</p>
-                  <a href="tel:+263773066041" className="text-gray-text hover:text-white transition-colors no-underline">
+                  <p className="text-text-primary font-medium">Phone</p>
+                  <a href="tel:+263773066041" className="text-text-secondary hover:text-royal-blue transition-colors no-underline">
                     +263 77 306 6041
                   </a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <MessageCircle className="w-5 h-5 text-red-accent shrink-0 mt-0.5" />
+                <MessageCircle className="w-5 h-5 text-royal-blue shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-medium">WhatsApp</p>
+                  <p className="text-text-primary font-medium">WhatsApp</p>
                   <a
                     href="https://wa.me/263773066041"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-text hover:text-white transition-colors no-underline"
+                    className="text-text-secondary hover:text-royal-blue transition-colors no-underline"
                   >
                     +263 77 306 6041
                   </a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-red-accent shrink-0 mt-0.5" />
+                <Mail className="w-5 h-5 text-royal-blue shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-medium">Email</p>
-                  <a href="mailto:mahunoobert85@gmail.com" className="text-gray-text hover:text-white transition-colors no-underline">
+                  <p className="text-text-primary font-medium">Email</p>
+                  <a href="mailto:mahunoobert85@gmail.com" className="text-text-secondary hover:text-royal-blue transition-colors no-underline">
                     mahunoobert85@gmail.com
                   </a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 text-red-accent shrink-0 mt-0.5" />
+                <Clock className="w-5 h-5 text-royal-blue shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-medium">Business Hours</p>
-                  <p className="text-gray-text">[BUSINESS HOURS]</p>
-                  <p className="text-gray-text text-xs mt-1 italic">
+                  <p className="text-text-primary font-medium">Business Hours</p>
+                  <p className="text-text-secondary">[BUSINESS HOURS]</p>
+                  <p className="text-text-muted text-xs mt-1 italic">
                     Contact us to confirm current hours
                   </p>
                 </div>
@@ -130,14 +130,14 @@ export default function Contact() {
             </div>
 
             <div className="mt-8">
-              <h4 className="font-heading font-semibold text-white text-sm mb-3">
+              <h4 className="font-heading font-semibold text-text-primary text-sm mb-3">
                 Our Services
               </h4>
               <div className="flex flex-wrap gap-2">
                 {servicesList.map((s) => (
                   <span
                     key={s}
-                    className="px-3 py-1 text-xs text-gray-text bg-white/5 border border-white/10 rounded-full"
+                    className="px-3 py-1 text-xs text-text-secondary bg-white border border-border-light rounded-full"
                   >
                     {s}
                   </span>
@@ -157,14 +157,14 @@ export default function Contact() {
               </a>
               <a
                 href="tel:+263773066041"
-                className="inline-flex items-center gap-2 bg-red-accent hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm no-underline"
+                className="inline-flex items-center gap-2 bg-royal-blue hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm no-underline"
               >
                 <Phone size={16} />
                 Call Now
               </a>
             </div>
 
-            <div className="mt-8 rounded-xl overflow-hidden border border-white/10">
+            <div className="mt-8 rounded-2xl shadow-sm border border-border-light overflow-hidden">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3799.5!2d31.0333!3d-17.825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sHarare!5e0!3m2!1sen!2szw!4v1"
                 width="100%"
@@ -186,40 +186,40 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
           >
             {submitted ? (
-              <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center">
-                <div className="w-14 h-14 rounded-full bg-red-accent flex items-center justify-center mx-auto mb-4">
+              <div className="bg-white rounded-2xl shadow-sm border border-border-light p-8 text-center">
+                <div className="w-14 h-14 rounded-full bg-royal-blue flex items-center justify-center mx-auto mb-4">
                   <Send className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-heading text-xl font-bold text-white mb-2">
+                <h3 className="font-heading text-xl font-bold text-text-primary mb-2">
                   Message Sent!
                 </h3>
-                <p className="text-gray-text text-sm">
+                <p className="text-text-secondary text-sm">
                   Thank you for reaching out. We&apos;ll respond within 24 hours.
                 </p>
-                <p className="text-gray-text text-xs mt-3">
+                <p className="text-text-muted text-xs mt-3">
                   (This is a frontend demo — connect a backend to send for real.)
                 </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
-                  className="mt-4 text-sm text-red-accent hover:text-white transition-colors"
+                  className="mt-4 text-sm text-royal-blue hover:text-blue-700 transition-colors"
                 >
                   Send another message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} noValidate className="bg-white/5 border border-white/10 rounded-xl p-6 md:p-8 space-y-5">
+              <form onSubmit={handleSubmit} noValidate className="bg-white rounded-2xl shadow-sm border border-border-light p-6 md:p-8 space-y-5">
                 <div>
-                  <label htmlFor="contact-name" className="block text-sm font-medium text-white mb-1.5">
-                    Name <span className="text-red-accent">*</span>
+                  <label htmlFor="contact-name" className="block text-sm font-medium text-text-primary mb-1.5">
+                    Name <span className="text-royal-blue">*</span>
                   </label>
                   <input
                     id="contact-name"
                     type="text"
                     value={form.name}
                     onChange={(e) => handleChange("name", e.target.value)}
-                    className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white text-sm placeholder-gray-text focus:outline-none focus:ring-2 focus:ring-red-accent/50 transition-colors ${
-                      errors.name ? "border-red-accent" : "border-white/10"
+                    className={`w-full px-4 py-3 bg-white border rounded-lg text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-royal-blue/40 transition-colors ${
+                      errors.name ? "border-red-accent" : "border-border-light"
                     }`}
                     placeholder="Your name"
                     aria-required="true"
@@ -228,16 +228,16 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="contact-email" className="block text-sm font-medium text-white mb-1.5">
-                    Email <span className="text-red-accent">*</span>
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-text-primary mb-1.5">
+                    Email <span className="text-royal-blue">*</span>
                   </label>
                   <input
                     id="contact-email"
                     type="email"
                     value={form.email}
                     onChange={(e) => handleChange("email", e.target.value)}
-                    className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white text-sm placeholder-gray-text focus:outline-none focus:ring-2 focus:ring-red-accent/50 transition-colors ${
-                      errors.email ? "border-red-accent" : "border-white/10"
+                    className={`w-full px-4 py-3 bg-white border rounded-lg text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-royal-blue/40 transition-colors ${
+                      errors.email ? "border-red-accent" : "border-border-light"
                     }`}
                     placeholder="your@email.com"
                     aria-required="true"
@@ -246,16 +246,16 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="contact-phone" className="block text-sm font-medium text-white mb-1.5">
-                    Phone <span className="text-red-accent">*</span>
+                  <label htmlFor="contact-phone" className="block text-sm font-medium text-text-primary mb-1.5">
+                    Phone <span className="text-royal-blue">*</span>
                   </label>
                   <input
                     id="contact-phone"
                     type="tel"
                     value={form.phone}
                     onChange={(e) => handleChange("phone", e.target.value)}
-                    className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white text-sm placeholder-gray-text focus:outline-none focus:ring-2 focus:ring-red-accent/50 transition-colors ${
-                      errors.phone ? "border-red-accent" : "border-white/10"
+                    className={`w-full px-4 py-3 bg-white border rounded-lg text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-royal-blue/40 transition-colors ${
+                      errors.phone ? "border-red-accent" : "border-border-light"
                     }`}
                     placeholder="+263 77 306 6041"
                     aria-required="true"
@@ -264,33 +264,33 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="contact-service" className="block text-sm font-medium text-white mb-1.5">
+                  <label htmlFor="contact-service" className="block text-sm font-medium text-text-primary mb-1.5">
                     Service Needed
                   </label>
                   <select
                     id="contact-service"
                     value={form.service}
                     onChange={(e) => handleChange("service", e.target.value)}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-text focus:outline-none focus:ring-2 focus:ring-red-accent/50 transition-colors appearance-none"
+                    className="w-full px-4 py-3 bg-white border border-border-light rounded-lg text-text-primary text-sm focus:outline-none focus:ring-2 focus:ring-royal-blue/40 transition-colors appearance-none"
                   >
-                    <option value="" className="bg-navy">Select a service...</option>
+                    <option value="" className="bg-white">Select a service...</option>
                     {serviceOptions.map((opt) => (
-                      <option key={opt} value={opt} className="bg-navy">{opt}</option>
+                      <option key={opt} value={opt} className="bg-white">{opt}</option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label htmlFor="contact-message" className="block text-sm font-medium text-white mb-1.5">
-                    Message <span className="text-red-accent">*</span>
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-text-primary mb-1.5">
+                    Message <span className="text-royal-blue">*</span>
                   </label>
                   <textarea
                     id="contact-message"
                     rows={4}
                     value={form.message}
                     onChange={(e) => handleChange("message", e.target.value)}
-                    className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white text-sm placeholder-gray-text focus:outline-none focus:ring-2 focus:ring-red-accent/50 transition-colors resize-none ${
-                      errors.message ? "border-red-accent" : "border-white/10"
+                    className={`w-full px-4 py-3 bg-white border rounded-lg text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-royal-blue/40 transition-colors resize-none ${
+                      errors.message ? "border-red-accent" : "border-border-light"
                     }`}
                     placeholder="Tell us what you need..."
                     aria-required="true"
@@ -300,13 +300,13 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-red-accent hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-royal-blue hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
                 >
                   <Send size={16} />
                   Send Message
                 </button>
 
-                <p className="text-xs text-gray-text text-center">
+                <p className="text-xs text-text-muted text-center">
                   * Required fields. Messages are demo-only — connect a backend to send.
                 </p>
               </form>

@@ -84,7 +84,7 @@ export default function FAQ() {
   let globalIndex = -1;
 
   return (
-    <section id="faq" className="bg-navy/30 py-20 md:py-28">
+    <section id="faq" className="bg-bg-white py-20 md:py-28">
       <div className="max-w-3xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -92,24 +92,24 @@ export default function FAQ() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Frequently Asked <span className="text-red-accent">Questions</span>
+          <h2 className="section-title text-center">
+            Frequently Asked <span className="text-royal-blue">Questions</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3 text-center">
             Quick answers to the most common questions we get at our shop.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
+          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <div className="mt-8 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-text pointer-events-none" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => { setSearch(e.target.value); setOpenIdx(null); }}
             placeholder="Search questions..."
             aria-label="Search frequently asked questions"
-            className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-text focus:outline-none focus:ring-2 focus:ring-red-accent/50 transition-colors"
+            className="w-full pl-11 pr-4 py-3 bg-white border border-border-light rounded-xl text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-royal-blue/40 transition-colors"
           />
         </div>
 
@@ -122,7 +122,7 @@ export default function FAQ() {
         >
           {displayCategories.map((cat) => (
             <div key={cat.label}>
-              <h3 className="font-heading text-sm font-semibold text-red-accent uppercase tracking-wider mb-3">
+              <h3 className="font-heading text-sm font-semibold text-royal-blue uppercase tracking-wider mb-3">
                 {cat.label}
               </h3>
               <div className="space-y-2">
@@ -136,12 +136,12 @@ export default function FAQ() {
                   return (
                     <div
                       key={idx}
-                      className="bg-white/5 border border-white/10 rounded-xl overflow-hidden"
+                      className="bg-white rounded-2xl shadow-sm border border-border-light overflow-hidden"
                     >
                       <button
                         id={btnId}
                         onClick={() => setOpenIdx(isOpen ? null : idx)}
-                        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left text-white font-medium text-sm md:text-base hover:bg-white/5 transition-colors"
+                        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left text-text-primary font-medium text-sm md:text-base hover:bg-bg-light-gray transition-colors"
                         aria-expanded={isOpen}
                         aria-controls={panelId}
                       >
@@ -149,7 +149,7 @@ export default function FAQ() {
                         <ChevronDown
                           size={18}
                           className={`shrink-0 transition-transform duration-300 ${
-                            isOpen ? "rotate-180 text-gold-accent" : "text-gray-text"
+                            isOpen ? "rotate-180 text-royal-blue" : "text-text-muted"
                           }`}
                         />
                       </button>
@@ -165,7 +165,7 @@ export default function FAQ() {
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="overflow-hidden"
                           >
-                            <div className="px-5 pb-4 text-gray-text text-sm leading-relaxed">
+                            <div className="px-5 pb-4 text-text-secondary text-sm leading-relaxed">
                               {faq.a}
                             </div>
                           </motion.div>

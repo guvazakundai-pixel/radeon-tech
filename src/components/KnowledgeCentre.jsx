@@ -85,7 +85,7 @@ export default function KnowledgeCentre() {
   const [expanded, setExpanded] = useState(null);
 
   return (
-    <section id="knowledge" className="bg-bg-dark py-20 md:py-28">
+    <section id="knowledge" className="bg-bg-white py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -93,13 +93,13 @@ export default function KnowledgeCentre() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Knowledge <span className="text-red-accent">Centre</span>
+          <h2 className="section-title text-center">
+            Knowledge <span className="text-royal-blue">Centre</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3 text-center">
             Helpful tech tips, guides, and advice to keep your devices running smoothly.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
+          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div
@@ -115,7 +115,7 @@ export default function KnowledgeCentre() {
             return (
               <div
                 key={article.title}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:-translate-y-1 hover:border-red-accent/50 transition-all duration-300 flex flex-col"
+                className="bg-white rounded-2xl shadow-sm border border-border-light overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col"
               >
                 <button
                   type="button"
@@ -124,16 +124,16 @@ export default function KnowledgeCentre() {
                   aria-expanded={isOpen}
                   aria-controls={`article-content-${i}`}
                 >
-                  <div className="w-11 h-11 rounded-lg bg-red-accent/10 flex items-center justify-center mb-3">
-                    <article.icon className="w-5 h-5 text-red-accent" />
+                  <div className="w-11 h-11 rounded-lg bg-royal-blue/10 flex items-center justify-center mb-3">
+                    <article.icon className="w-5 h-5 text-royal-blue" />
                   </div>
-                  <h3 className="font-heading font-semibold text-base text-white mb-1.5">
+                  <h3 className="font-heading font-semibold text-base text-text-primary mb-1.5">
                     {article.title}
                   </h3>
-                  <p className="text-gray-text text-xs leading-relaxed flex-1">
+                  <p className="text-text-secondary text-xs leading-relaxed flex-1">
                     {article.preview}
                   </p>
-                  <span className="inline-flex items-center gap-1 text-xs text-red-accent hover:text-white transition-colors mt-3 font-medium">
+                  <span className="inline-flex items-center gap-1 text-xs text-royal-blue hover:text-blue-700 transition-colors mt-3 font-medium">
                     {isOpen ? "Show Less" : "Read More"}
                     <ChevronDown
                       size={14}
@@ -156,7 +156,7 @@ export default function KnowledgeCentre() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-5 pb-5 text-gray-text text-xs leading-relaxed border-t border-white/10 pt-4">
+                      <div className="px-5 pb-5 text-text-secondary text-xs leading-relaxed border-t border-border-light pt-4">
                         {article.content}
                       </div>
                     </motion.div>

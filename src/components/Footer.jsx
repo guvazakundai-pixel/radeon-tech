@@ -22,18 +22,18 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-navy/80 border-t border-white/10">
+    <footer className="bg-deep-blue">
       <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <div>
             <a href="#home" className="inline-flex items-center gap-2 no-underline mb-3">
-              <span className="w-8 h-8 rounded-lg bg-red-accent flex items-center justify-center font-heading font-bold text-white text-sm">RT</span>
+              <span className="w-8 h-8 rounded-lg bg-royal-blue flex items-center justify-center font-heading font-bold text-white text-sm">RT</span>
               <span className="font-heading font-bold text-white text-lg">Radeon Tech</span>
             </a>
-            <p className="text-gray-text text-sm leading-relaxed max-w-xs">
+            <p className="text-blue-200 text-sm leading-relaxed max-w-xs">
               Your Stop ICT Solution Centre — Zimbabwe&apos;s trusted computer repair, sales, and tech solutions company.
             </p>
-            <p className="mt-3 text-xs text-gray-text">
+            <p className="mt-3 text-xs text-blue-200">
               <span className="block">Cyrus Mall Shop C20, Cnr Mbuya Nehanda &amp; Speke</span>
               <span className="block">Harare, Zimbabwe</span>
               <span className="block mt-1">+263 77 306 6041</span>
@@ -48,7 +48,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-gray-text hover:text-white text-sm transition-colors no-underline"
+                    className="text-blue-100 hover:text-white text-sm transition-colors no-underline"
                   >
                     {link.label}
                   </a>
@@ -67,13 +67,13 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Visit our ${s.label} page`}
-                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-text hover:text-red-accent hover:border-red-accent/50 transition-all no-underline"
+                  className="w-10 h-10 rounded-lg border border-blue-400/30 flex items-center justify-center text-blue-200 hover:text-white hover:border-white transition-all no-underline"
                 >
                   <Globe size={18} />
                 </a>
               ))}
             </div>
-            <p className="mt-4 text-gray-text text-xs">
+            <p className="mt-4 text-blue-200 text-xs">
               Phone: +263 77 306 6041<br />
               Email: mahunoobert85@gmail.com
             </p>
@@ -81,14 +81,14 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-4">
+      <div className="border-t border-blue-400/20 py-4">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-gray-text text-xs">
+          <p className="text-blue-300 text-xs">
             &copy; 2026 Radeon Tech Investments. All rights reserved.
           </p>
           <a
             href="#home"
-            className="inline-flex items-center gap-1 text-gray-text hover:text-white text-xs transition-colors no-underline"
+            className="inline-flex items-center gap-1 text-blue-300 hover:text-white text-xs transition-colors no-underline"
             aria-label="Scroll to top"
           >
             <ChevronUp size={14} />

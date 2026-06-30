@@ -46,7 +46,7 @@ const stepVariants = {
 
 export default function Process() {
   return (
-    <section id="process" className="bg-navy/30 py-20 md:py-28">
+    <section id="process" className="bg-white py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -54,18 +54,17 @@ export default function Process() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Our Repair <span className="text-red-accent">Process</span>
+          <h2 className="section-title text-center">
+            Our Repair <span className="text-royal-blue">Process</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3">
             From drop-off to pick-up — five simple steps to get your device working like new.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <div className="relative mt-16">
           {/* Desktop connecting line */}
-          <div className="hidden lg:block absolute top-14 left-[10%] right-[10%] h-0.5 bg-white/10" />
+          <div className="hidden lg:block absolute top-14 left-[10%] right-[10%] h-0.5 bg-border-light" />
 
           <motion.div
             variants={containerVariants}
@@ -82,20 +81,20 @@ export default function Process() {
               >
                 {/* Mobile connecting line */}
                 {i < steps.length - 1 && (
-                  <div className="lg:hidden absolute left-7 top-14 bottom-0 w-0.5 bg-white/10 -z-0" />
+                  <div className="lg:hidden absolute left-7 top-14 bottom-0 w-0.5 bg-border-light -z-0" />
                 )}
 
                 <div className="relative shrink-0 z-10">
-                  <div className="w-14 h-14 rounded-full bg-red-accent flex items-center justify-center shadow-lg shadow-red-accent/25">
+                  <div className="w-14 h-14 rounded-full bg-royal-blue flex items-center justify-center shadow-md shadow-royal-blue/20">
                     <s.icon className="w-6 h-6 text-white" />
                   </div>
-                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white text-red-accent text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white text-royal-blue text-xs font-bold flex items-center justify-center shadow-sm border border-border-light">
                     {s.step}
                   </span>
                 </div>
                 <div className="lg:text-center">
-                  <h3 className="font-heading font-semibold text-white text-lg">{s.title}</h3>
-                  <p className="text-gray-text text-sm mt-1 leading-relaxed">{s.desc}</p>
+                  <h3 className="font-heading font-semibold text-text-primary text-lg">{s.title}</h3>
+                  <p className="text-text-secondary text-sm mt-1 leading-relaxed">{s.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -111,13 +110,13 @@ export default function Process() {
         >
           <a
             href="tel:+263773066041"
-            className="inline-flex items-center gap-2 bg-red-accent hover:bg-red-accent/90 text-white font-heading font-semibold px-8 py-3.5 rounded-xl text-base transition-all duration-300 shadow-lg shadow-red-accent/25 hover:shadow-red-accent/40 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 bg-royal-blue hover:bg-royal-blue/90 text-white font-heading font-semibold px-8 py-3.5 rounded-xl text-base transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5"
           >
             <Wrench className="w-5 h-5" />
             Book a Repair Now
           </a>
-          <p className="mt-3 text-gray-text text-sm">
-            Call us at <a href="tel:+263773066041" className="text-red-accent hover:underline">+263 77 306 6041</a> or visit Cyrus Mall Shop C20
+          <p className="mt-3 text-text-secondary text-sm">
+            Call us at <a href="tel:+263773066041" className="text-royal-blue hover:underline">+263 77 306 6041</a> or visit Cyrus Mall Shop C20
           </p>
         </motion.div>
       </div>

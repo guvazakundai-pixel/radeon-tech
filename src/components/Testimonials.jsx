@@ -52,7 +52,7 @@ const cardVariants = {
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="bg-bg-dark py-20 md:py-28">
+    <section id="testimonials" className="bg-bg-light-gray py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -60,13 +60,13 @@ export default function Testimonials() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            What Our <span className="text-red-accent">Clients Say</span>
+          <h2 className="section-title text-center">
+            What Our <span className="text-royal-blue">Clients Say</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3 text-center">
             Real feedback from our customers across Zimbabwe.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
+          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div
@@ -80,20 +80,20 @@ export default function Testimonials() {
             <motion.div
               key={t.name}
               variants={cardVariants}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-red-accent/50 hover:shadow-lg hover:shadow-red-accent/5 transition-all duration-300 flex flex-col"
+              className="bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:shadow-md transition-all duration-300 flex flex-col"
             >
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={16} className="text-red-accent fill-red-accent" />
+                  <Star key={i} size={16} className="text-amber-400 fill-amber-400" />
                 ))}
               </div>
-              <p className="text-gray-text text-sm leading-relaxed mb-4 italic flex-1">
+              <p className="text-text-secondary text-sm leading-relaxed mb-4 italic flex-1">
                 &ldquo;{t.text}&rdquo;
               </p>
-              <div className="pt-3 border-t border-white/10">
-                <p className="text-white font-semibold text-sm">{t.name}</p>
-                <p className="text-gray-text text-xs">{t.location}</p>
-                <span className="inline-block mt-1.5 text-[10px] text-red-accent/80 bg-red-accent/10 px-2 py-0.5 rounded-full">
+              <div className="pt-3 border-t border-border-light">
+                <p className="text-text-primary font-semibold text-sm">{t.name}</p>
+                <p className="text-text-muted text-xs">{t.location}</p>
+                <span className="inline-block mt-1.5 text-[10px] text-royal-blue bg-royal-blue/10 px-2 py-0.5 rounded-full font-medium">
                   {t.service}
                 </span>
               </div>

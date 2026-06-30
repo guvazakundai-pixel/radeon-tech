@@ -492,7 +492,7 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="bg-navy py-20 md:py-28">
+    <section id="services" className="bg-bg-light-blue py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -500,13 +500,12 @@ export default function Services() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Our <span className="text-red-accent">Services</span>
+          <h2 className="section-title text-center">
+            Our <span className="text-royal-blue">Services</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3">
             Comprehensive ICT solutions — from component-level repairs to enterprise IT support. One stop for all your technology needs.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <div className="mt-16 space-y-16">
@@ -519,9 +518,9 @@ export default function Services() {
               viewport={{ once: true, margin: "-80px" }}
             >
               <motion.div variants={categoryVariants} className="flex items-center gap-3 mb-8">
-                <div className="w-1 h-8 bg-red-accent rounded-full shrink-0" />
-                <category.icon className="w-6 h-6 text-red-accent" />
-                <h3 className="font-heading text-2xl font-bold text-white">
+                <div className="w-1 h-8 bg-royal-blue rounded-full shrink-0" />
+                <category.icon className="w-6 h-6 text-royal-blue" />
+                <h3 className="font-heading text-2xl font-bold text-text-primary">
                   {category.category}
                 </h3>
               </motion.div>
@@ -533,31 +532,31 @@ export default function Services() {
                     <motion.div
                       key={service.title}
                       variants={cardVariants}
-                      className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-red-accent/50 transition-all duration-300"
+                      className="group bg-white rounded-2xl shadow-sm border border-border-light overflow-hidden hover:-translate-y-1 hover:shadow-md transition-all duration-300"
                     >
                       <button
                         onClick={() => toggleService(`${category.category}-${service.title}`)}
                         className="w-full text-left p-5 cursor-pointer"
                         aria-expanded={isOpen}
                       >
-                        <div className="w-11 h-11 rounded-lg bg-red-accent/10 flex items-center justify-center mb-3 group-hover:shadow-lg group-hover:shadow-red-accent/20 transition-all duration-300">
-                          <service.icon className="w-5 h-5 text-red-accent" />
+                        <div className="w-11 h-11 rounded-lg bg-blue-accent/10 flex items-center justify-center mb-3 group-hover:shadow-md group-hover:shadow-blue-accent/10 transition-all duration-300">
+                          <service.icon className="w-5 h-5 text-blue-accent" />
                         </div>
-                        <h4 className="font-heading font-semibold text-base text-white mb-1.5">
+                        <h4 className="font-heading font-semibold text-base text-text-primary mb-1.5">
                           {service.title}
                         </h4>
-                        <p className="text-gray-text text-sm leading-relaxed">
+                        <p className="text-text-secondary text-sm leading-relaxed">
                           {service.desc}
                         </p>
                         <ul className="mt-3 space-y-1">
                           {service.bullets.map((bullet) => (
-                            <li key={bullet} className="text-gray-text text-xs flex items-center gap-2">
-                              <span className="w-1 h-1 rounded-full bg-red-accent shrink-0" />
+                            <li key={bullet} className="text-text-secondary text-xs flex items-center gap-2">
+                              <span className="w-1 h-1 rounded-full bg-blue-accent shrink-0" />
                               {bullet}
                             </li>
                           ))}
                         </ul>
-                        <div className="mt-3 flex items-center gap-1.5 text-red-accent text-xs font-medium">
+                        <div className="mt-3 flex items-center gap-1.5 text-blue-accent text-xs font-medium">
                           <ChevronDown
                             className={`w-4 h-4 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
                           />
@@ -574,50 +573,50 @@ export default function Services() {
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="overflow-hidden"
                           >
-                            <div className="px-5 pb-5 border-t border-white/10 pt-4 space-y-4">
+                            <div className="px-5 pb-5 border-t border-border-light pt-4 space-y-4">
                               <div>
-                                <h5 className="font-heading text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
+                                <h5 className="font-heading text-xs font-semibold text-text-primary uppercase tracking-wider mb-1.5">
                                   What It Is
                                 </h5>
-                                <p className="text-gray-text text-sm leading-relaxed">
+                                <p className="text-text-secondary text-sm leading-relaxed">
                                   {service.detail.what}
                                 </p>
                               </div>
                               <div>
-                                <h5 className="font-heading text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
+                                <h5 className="font-heading text-xs font-semibold text-text-primary uppercase tracking-wider mb-1.5">
                                   Common Symptoms
                                 </h5>
-                                <p className="text-gray-text text-sm leading-relaxed">
+                                <p className="text-text-secondary text-sm leading-relaxed">
                                   {service.detail.symptoms}
                                 </p>
                               </div>
                               <div>
-                                <h5 className="font-heading text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
+                                <h5 className="font-heading text-xs font-semibold text-text-primary uppercase tracking-wider mb-1.5">
                                   Benefits
                                 </h5>
-                                <p className="text-gray-text text-sm leading-relaxed">
+                                <p className="text-text-secondary text-sm leading-relaxed">
                                   {service.detail.benefits}
                                 </p>
                               </div>
                               <div>
-                                <h5 className="font-heading text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
+                                <h5 className="font-heading text-xs font-semibold text-text-primary uppercase tracking-wider mb-1.5">
                                   Our Process
                                 </h5>
                                 <ol className="list-decimal list-inside space-y-0.5">
                                   {service.detail.steps.map((step) => (
-                                    <li key={step} className="text-gray-text text-sm">
+                                    <li key={step} className="text-text-secondary text-sm">
                                       {step}
                                     </li>
                                   ))}
                                 </ol>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-gold-accent">
+                              <div className="flex items-center gap-2 text-sm text-cyan-accent">
                                 <span className="font-heading font-semibold">Turnaround:</span>
                                 <span>{service.detail.turnaround}</span>
                               </div>
                               <a
                                 href="tel:+263773066041"
-                                className="inline-block w-full text-center bg-red-accent hover:bg-red-accent/90 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors"
+                                className="inline-block w-full text-center bg-royal-blue hover:bg-royal-blue/90 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors"
                               >
                                 Book a Repair — Call +263 77 306 6041
                               </a>

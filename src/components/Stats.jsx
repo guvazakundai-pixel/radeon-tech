@@ -37,7 +37,7 @@ function CountUp({ end, suffix, duration = 2000 }) {
   }, [end, duration]);
 
   return (
-    <span ref={ref} className="font-heading text-4xl md:text-5xl font-extrabold text-white">
+    <span ref={ref} className="font-heading text-4xl md:text-5xl font-extrabold text-royal-blue">
       {count}
       {suffix}
     </span>
@@ -47,11 +47,11 @@ function CountUp({ end, suffix, duration = 2000 }) {
 export default function Stats() {
   return (
     <section className="relative -mt-20 z-10 max-w-6xl mx-auto px-4 pb-16">
-      <div className="bg-navy/80 backdrop-blur-md border border-white/10 rounded-2xl grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-white/10">
+      <div className="bg-white rounded-2xl shadow-sm border border-border-light grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border-light">
         {stats.map((s) => (
           <div key={s.label} className="py-8 px-4 text-center">
             <CountUp end={s.value} suffix={s.suffix} />
-            <p className="mt-1 text-sm text-gray-text font-medium">{s.label}</p>
+            <p className="mt-1 text-sm text-text-secondary font-medium">{s.label}</p>
           </div>
         ))}
       </div>

@@ -34,7 +34,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-bg-dark/80 backdrop-blur-lg border-b border-white/10 shadow-lg shadow-black/20"
+          ? "bg-white/70 backdrop-blur-xl border-b border-border-light shadow-sm"
           : "bg-transparent"
       }`}
       role="navigation"
@@ -42,8 +42,8 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
         <a href="#home" className="flex items-center gap-2 no-underline shrink-0" aria-label="Radeon Tech Home">
-          <span className="w-8 h-8 rounded-lg bg-red-accent flex items-center justify-center font-heading font-bold text-white text-sm">RT</span>
-          <span className="font-heading font-bold text-white text-lg md:text-xl tracking-tight">
+          <span className="w-8 h-8 rounded-lg bg-royal-blue flex items-center justify-center font-heading font-bold text-text-white text-sm">RT</span>
+          <span className={`font-heading font-bold text-lg md:text-xl tracking-tight ${scrolled ? "text-text-primary" : "text-text-primary"}`}>
             Radeon Tech
           </span>
         </a>
@@ -53,7 +53,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="px-3 py-2 text-sm font-medium text-gray-text hover:text-white transition-colors rounded-lg hover:bg-white/5 no-underline"
+              className="px-3 py-2 text-sm font-medium text-text-secondary hover:text-royal-blue transition-colors rounded-lg no-underline"
             >
               {link.label}
             </a>
@@ -63,21 +63,21 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <a
             href="#process"
-            className="hidden lg:inline-flex items-center gap-2 border border-red-accent text-red-accent hover:bg-red-accent hover:text-white text-sm font-semibold px-4 py-2 rounded-full transition-all no-underline"
+            className="hidden lg:inline-flex items-center gap-2 border border-royal-blue text-royal-blue hover:bg-royal-blue hover:text-text-white text-sm font-semibold px-4 py-2 rounded-full transition-all no-underline"
           >
             <Wrench size={14} />
             <span>Book a Repair</span>
           </a>
           <a
             href="tel:+263773066041"
-            className="inline-flex items-center gap-2 bg-red-accent hover:bg-red-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors no-underline"
+            className="inline-flex items-center gap-2 bg-royal-blue hover:bg-royal-blue/90 text-text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors no-underline"
             aria-label="Call us at +263 77 306 6041"
           >
             <Phone size={14} />
             <span className="hidden sm:inline">Call Now</span>
           </a>
           <button
-            className="lg:hidden p-2 text-white hover:text-red-accent transition-colors"
+            className="lg:hidden p-2 text-text-primary hover:text-royal-blue transition-colors"
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -94,7 +94,7 @@ export default function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
-          className="lg:hidden fixed inset-0 top-16 md:top-20 z-40 bg-bg-dark/98 backdrop-blur-xl"
+          className="lg:hidden fixed inset-0 top-16 md:top-20 z-40 bg-white"
         >
           <div className="px-4 py-6 space-y-1 overflow-y-auto max-h-[calc(100vh-5rem)]">
             {navLinks.map((link) => (
@@ -102,7 +102,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={close}
-                className="block px-3 py-3 text-base font-medium text-gray-text hover:text-white hover:bg-white/5 rounded-lg transition-colors no-underline"
+                className="block px-3 py-3 text-base font-medium text-text-secondary hover:text-royal-blue hover:bg-bg-light-gray rounded-lg transition-colors no-underline"
               >
                 {link.label}
               </a>
@@ -111,7 +111,7 @@ export default function Navbar() {
               <a
                 href="#process"
                 onClick={close}
-                className="flex items-center justify-center gap-2 border border-red-accent text-red-accent hover:bg-red-accent hover:text-white text-sm font-semibold px-4 py-3 rounded-full transition-all no-underline"
+                className="flex items-center justify-center gap-2 border border-royal-blue text-royal-blue hover:bg-royal-blue hover:text-text-white text-sm font-semibold px-4 py-3 rounded-full transition-all no-underline"
               >
                 <Wrench size={16} />
                 <span>Book a Repair</span>
@@ -119,7 +119,7 @@ export default function Navbar() {
               <a
                 href="tel:+263773066041"
                 onClick={close}
-                className="flex items-center justify-center gap-2 bg-red-accent hover:bg-red-700 text-white text-sm font-semibold px-4 py-3 rounded-full transition-colors no-underline"
+                className="flex items-center justify-center gap-2 bg-royal-blue hover:bg-royal-blue/90 text-text-white text-sm font-semibold px-4 py-3 rounded-full transition-colors no-underline"
               >
                 <Phone size={16} />
                 <span>Call Now — +263 77 306 6041</span>

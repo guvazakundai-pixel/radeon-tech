@@ -55,7 +55,7 @@ const cardVariants = {
 
 export default function WhyChooseUs() {
   return (
-    <section id="why-choose-us" className="bg-navy/50 py-20 md:py-28">
+    <section id="why-choose-us" className="bg-white py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -63,13 +63,12 @@ export default function WhyChooseUs() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Why Choose <span className="text-red-accent">Us</span>
+          <h2 className="section-title text-center">
+            Why Choose <span className="text-royal-blue">Us</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3">
             We don't just fix computers — we build trust. Here's why Radeon Tech is Harare's preferred ICT partner.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div
@@ -83,17 +82,17 @@ export default function WhyChooseUs() {
             <motion.div
               key={reason.title}
               variants={cardVariants}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-red-accent/30 hover:-translate-y-0.5 transition-all duration-300"
+              className="bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
             >
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-red-accent/15 flex items-center justify-center shrink-0">
-                  <reason.icon className="w-5 h-5 text-red-accent" />
+                <div className="w-10 h-10 rounded-full bg-blue-accent/10 flex items-center justify-center shrink-0">
+                  <reason.icon className="w-5 h-5 text-blue-accent" />
                 </div>
                 <div>
-                  <h3 className="font-heading font-semibold text-white text-base mb-1">
+                  <h3 className="font-heading font-semibold text-text-primary text-base mb-1">
                     {reason.title}
                   </h3>
-                  <p className="text-gray-text text-sm leading-relaxed">
+                  <p className="text-text-secondary text-sm leading-relaxed">
                     {reason.desc}
                   </p>
                 </div>
@@ -109,19 +108,21 @@ export default function WhyChooseUs() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-16"
         >
-          <h3 className="font-heading text-xl font-bold text-white text-center mb-8">
-            Trusted by Customers, <span className="text-gold-accent">Backed by Leaders</span>
-          </h3>
-          <div className="flex flex-wrap justify-center gap-4">
-            {trustBadges.map((badge) => (
-              <div
-                key={badge.name}
-                className="flex items-center gap-2.5 bg-white/5 border border-white/10 rounded-lg px-4 py-3 hover:border-gold-accent/40 transition-colors"
-              >
-                <badge.icon className="w-5 h-5 text-gold-accent" />
-                <span className="text-white text-sm font-medium">{badge.name}</span>
-              </div>
-            ))}
+          <div className="bg-bg-light-gray rounded-3xl p-8 md:p-10">
+            <h3 className="font-heading text-xl font-bold text-text-primary text-center mb-8">
+              Trusted by Customers, <span className="text-royal-blue">Backed by Leaders</span>
+            </h3>
+            <div className="flex flex-wrap justify-center gap-4">
+              {trustBadges.map((badge) => (
+                <div
+                  key={badge.name}
+                  className="flex items-center gap-2.5 bg-white rounded-xl shadow-sm border border-border-light px-5 py-3.5 hover:border-blue-accent/30 hover:shadow-md transition-all duration-300"
+                >
+                  <badge.icon className="w-5 h-5 text-royal-blue" />
+                  <span className="text-text-primary text-sm font-medium">{badge.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

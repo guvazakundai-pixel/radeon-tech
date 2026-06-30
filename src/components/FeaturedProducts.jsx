@@ -24,7 +24,7 @@ const cardVariants = {
 
 export default function FeaturedProducts() {
   return (
-    <section id="products" className="bg-bg-dark py-20 md:py-28">
+    <section id="products" className="bg-bg-light-blue py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -32,13 +32,13 @@ export default function FeaturedProducts() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
-            Browse Our <span className="text-red-accent">Range</span>
+          <h2 className="section-title text-center">
+            Browse Our <span className="text-royal-blue">Range</span>
           </h2>
-          <p className="mt-3 text-gray-text text-center max-w-xl mx-auto">
+          <p className="section-subtitle mt-3 text-center">
             Quality computers, components, and accessories — all backed by our service guarantee.
           </p>
-          <div className="w-20 h-1 bg-red-accent mx-auto mt-4 rounded-full" />
+          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div
@@ -52,24 +52,24 @@ export default function FeaturedProducts() {
             <motion.div
               key={product.name}
               variants={cardVariants}
-              className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:-translate-y-1 hover:border-red-accent/50 hover:shadow-lg hover:shadow-red-accent/5 transition-all duration-300 flex flex-col"
+              className="group bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col"
             >
-              <div className="w-14 h-14 rounded-xl bg-red-accent/10 flex items-center justify-center mb-4 group-hover:bg-red-accent/20 transition-colors">
-                <product.icon className="w-7 h-7 text-red-accent" />
+              <div className="w-14 h-14 rounded-xl bg-royal-blue/10 flex items-center justify-center mb-4 group-hover:bg-royal-blue/20 transition-colors">
+                <product.icon className="w-7 h-7 text-royal-blue" />
               </div>
-              <h3 className="font-heading font-semibold text-lg text-white mb-1">
+              <h3 className="font-heading font-semibold text-lg text-text-primary mb-1">
                 {product.name}
               </h3>
-              <p className="text-gray-text text-sm leading-relaxed flex-1">
+              <p className="text-text-secondary text-sm leading-relaxed flex-1">
                 {product.desc}
               </p>
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <span className="inline-block px-3 py-1 text-xs font-semibold text-gold-accent bg-gold-accent/10 border border-gold-accent/30 rounded-full mb-3">
+              <div className="mt-4 pt-4 border-t border-border-light">
+                <span className="inline-block px-3 py-1 text-xs font-semibold text-royal-blue bg-royal-blue/10 border border-royal-blue/20 rounded-full mb-3">
                   Price on Request
                 </span>
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white bg-red-accent/10 hover:bg-red-accent border border-red-accent/30 hover:border-red-accent rounded-lg px-4 py-2 transition-all duration-300"
+                  className="w-full inline-flex items-center justify-center gap-1.5 text-sm font-medium text-royal-blue hover:text-white bg-royal-blue/5 hover:bg-royal-blue border border-royal-blue/20 hover:border-royal-blue rounded-lg px-4 py-2 transition-all duration-300"
                 >
                   View Details <ExternalLink size={14} />
                 </button>
