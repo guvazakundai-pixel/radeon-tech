@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const stats = [
   { value: 10, suffix: "+", label: "Years Experience" },
@@ -37,7 +38,7 @@ function CountUp({ end, suffix, duration = 2000 }) {
   }, [end, duration]);
 
   return (
-    <span ref={ref} className="font-heading text-4xl md:text-5xl font-extrabold text-royal-blue">
+    <span ref={ref} className="font-heading text-4xl md:text-5xl font-extrabold text-gradient">
       {count}
       {suffix}
     </span>
@@ -47,14 +48,20 @@ function CountUp({ end, suffix, duration = 2000 }) {
 export default function Stats() {
   return (
     <section className="relative -mt-20 z-10 max-w-6xl mx-auto px-4 pb-16">
-      <div className="bg-white rounded-2xl shadow-sm border border-border-light grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border-light">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="glass-card static grid grid-cols-2 md:grid-cols-4"
+      >
         {stats.map((s) => (
-          <div key={s.label} className="py-8 px-4 text-center">
+          <div key={s.label} className="py-8 px-4 text-center border-r border-border-light last:border-r-0">
             <CountUp end={s.value} suffix={s.suffix} />
             <p className="mt-1 text-sm text-text-secondary font-medium">{s.label}</p>
           </div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

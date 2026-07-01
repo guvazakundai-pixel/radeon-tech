@@ -12,50 +12,47 @@ const products = [
   { icon: Printer, name: "Printers", desc: "Inkjet and laser printers for home and office. Sales, setup, and cartridge supply." },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 export default function FeaturedProducts() {
   return (
-    <section id="products" className="bg-bg-light-blue py-20 md:py-28">
-      <div className="max-w-6xl mx-auto px-4">
+    <section id="products" className="relative py-20 md:py-28 overflow-hidden bg-white">
+      <div className="absolute top-0 right-1/3 w-80 h-80 rounded-full bg-lavender/5 blur-[100px] animate-pulse-glow" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
+          className="text-center"
         >
-          <h2 className="section-title text-center">
-            Browse Our <span className="text-royal-blue">Range</span>
+          <div className="glass inline-block px-4 py-1.5 rounded-full mb-4">
+            <span className="text-xs font-semibold text-soft-purple tracking-wide">PRODUCTS</span>
+          </div>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary">
+            Browse Our <span className="text-gradient">Range</span>
           </h2>
-          <p className="section-subtitle mt-3 text-center">
+          <p className="section-subtitle mt-3">
             Quality computers, components, and accessories — all backed by our service guarantee.
           </p>
-          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
         >
-          {products.map((product) => (
+          {products.map((product, i) => (
             <motion.div
               key={product.name}
-              variants={cardVariants}
-              className="group bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="glass-card p-6 flex flex-col group"
             >
-              <div className="w-14 h-14 rounded-xl bg-royal-blue/10 flex items-center justify-center mb-4 group-hover:bg-royal-blue/20 transition-colors">
-                <product.icon className="w-7 h-7 text-royal-blue" />
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-soft-purple/10 to-lavender/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <product.icon className="w-7 h-7 text-soft-purple" />
               </div>
               <h3 className="font-heading font-semibold text-lg text-text-primary mb-1">
                 {product.name}
@@ -64,12 +61,12 @@ export default function FeaturedProducts() {
                 {product.desc}
               </p>
               <div className="mt-4 pt-4 border-t border-border-light">
-                <span className="inline-block px-3 py-1 text-xs font-semibold text-royal-blue bg-royal-blue/10 border border-royal-blue/20 rounded-full mb-3">
+                <span className="inline-block px-3 py-1 text-xs font-semibold text-soft-purple bg-soft-purple/10 border border-soft-purple/20 rounded-full mb-3">
                   Price on Request
                 </span>
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center gap-1.5 text-sm font-medium text-royal-blue hover:text-white bg-royal-blue/5 hover:bg-royal-blue border border-royal-blue/20 hover:border-royal-blue rounded-lg px-4 py-2 transition-all duration-300"
+                  className="w-full inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white bg-gradient-to-r from-soft-purple to-light-indigo hover:from-soft-purple/90 hover:to-light-indigo/90 rounded-xl px-4 py-2.5 transition-all duration-300 shadow-md shadow-soft-purple/20"
                 >
                   View Details <ExternalLink size={14} />
                 </button>

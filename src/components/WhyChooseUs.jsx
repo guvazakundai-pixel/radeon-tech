@@ -1,129 +1,64 @@
 import { motion } from "framer-motion";
-import { Check, Globe, ShieldCheck, Clock, DollarSign, Star, Wrench, Cpu, Monitor, Cctv } from "lucide-react";
+import { Wrench, ShieldCheck, Gauge, DollarSign, Star } from "lucide-react";
 
 const reasons = [
-  {
-    icon: ShieldCheck,
-    title: "Certified Technicians",
-    desc: "Our team holds industry certifications and undergoes continuous training to stay ahead of the latest technology.",
-  },
-  {
-    icon: Wrench,
-    title: "Genuine Parts Only",
-    desc: "We use only authentic, manufacturer-grade components — no cheap knockoffs that fail after a month.",
-  },
-  {
-    icon: Globe,
-    title: "Warranty on All Work",
-    desc: "Every repair and product we sell comes with a clear warranty. If it's not right, we make it right.",
-  },
-  {
-    icon: Clock,
-    title: "Fast Turnaround",
-    desc: "Most repairs completed within 24-48 hours. Emergency services available for critical equipment.",
-  },
-  {
-    icon: DollarSign,
-    title: "Transparent Pricing",
-    desc: "Free diagnosis, no-obligation quotes, no hidden fees. You approve all costs before we start work.",
-  },
-  {
-    icon: Star,
-    title: "100% Satisfaction",
-    desc: "We don't rest until your device works perfectly. Our repeat customers and referrals speak for themselves.",
-  },
+  { icon: Wrench, title: "Expert Technicians", desc: "Certified professionals with 10+ years of combined experience across all major brands." },
+  { icon: ShieldCheck, title: "Quality Parts", desc: "We use only genuine or high-quality compatible parts. Every repair is backed by our warranty." },
+  { icon: Gauge, title: "Fast Turnaround", desc: "Most repairs completed within 24–48 hours. Same-day service available for common issues." },
+  { icon: DollarSign, title: "Affordable Prices", desc: "Free diagnosis, competitive rates, and honest recommendations. No unnecessary repairs — ever." },
+  { icon: Star, title: "Satisfaction Guaranteed", desc: "Over 1,000 satisfied customers across Zimbabwe. Your satisfaction is our reputation." },
 ];
-
-const trustBadges = [
-  { name: "Microsoft", icon: Monitor },
-  { name: "Intel", icon: Cpu },
-  { name: "AMD", icon: Cpu },
-  { name: "NVIDIA", icon: Monitor },
-  { name: "Windows 11", icon: Monitor },
-  { name: "CCTV Certified", icon: Cctv },
-];
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
 
 export default function WhyChooseUs() {
   return (
-    <section id="why-choose-us" className="bg-white py-20 md:py-28">
-      <div className="max-w-6xl mx-auto px-4">
+    <section className="relative py-24 overflow-hidden bg-white">
+      <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-soft-purple/5 blur-[120px] animate-pulse-glow" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-lavender/5 blur-[100px] animate-pulse-glow" style={{ animationDelay: "2s" }} />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <h2 className="section-title text-center">
-            Why Choose <span className="text-royal-blue">Us</span>
+          <div className="glass inline-block px-4 py-1.5 rounded-full mb-4">
+            <span className="text-xs font-semibold text-soft-purple tracking-wide">WHY CHOOSE US</span>
+          </div>
+          <h2 className="font-heading text-4xl md:text-5xl font-black text-text-primary tracking-tight">
+            Why <span className="text-gradient">Radeon Tech</span>?
           </h2>
           <p className="section-subtitle mt-3">
-            We don't just fix computers — we build trust. Here's why Radeon Tech is Harare's preferred ICT partner.
+            We take your trust seriously. Here's why customers choose us.
           </p>
         </motion.div>
 
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
         >
-          {reasons.map((reason) => (
-            <motion.div
-              key={reason.title}
-              variants={cardVariants}
-              className="bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-blue-accent/10 flex items-center justify-center shrink-0">
-                  <reason.icon className="w-5 h-5 text-blue-accent" />
+          {reasons.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="glass-card p-6 text-center group"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-soft-purple/10 to-lavender/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="w-6 h-6 text-soft-purple" />
                 </div>
-                <div>
-                  <h3 className="font-heading font-semibold text-text-primary text-base mb-1">
-                    {reason.title}
-                  </h3>
-                  <p className="text-text-secondary text-sm leading-relaxed">
-                    {reason.desc}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16"
-        >
-          <div className="bg-bg-light-gray rounded-3xl p-8 md:p-10">
-            <h3 className="font-heading text-xl font-bold text-text-primary text-center mb-8">
-              Trusted by Customers, <span className="text-royal-blue">Backed by Leaders</span>
-            </h3>
-            <div className="flex flex-wrap justify-center gap-4">
-              {trustBadges.map((badge) => (
-                <div
-                  key={badge.name}
-                  className="flex items-center gap-2.5 bg-white rounded-xl shadow-sm border border-border-light px-5 py-3.5 hover:border-blue-accent/30 hover:shadow-md transition-all duration-300"
-                >
-                  <badge.icon className="w-5 h-5 text-royal-blue" />
-                  <span className="text-text-primary text-sm font-medium">{badge.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+                <h3 className="font-heading font-bold text-text-primary text-base mb-2">{item.title}</h3>
+                <p className="text-text-secondary text-xs leading-relaxed">{item.desc}</p>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

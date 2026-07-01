@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Search } from "lucide-react";
 
@@ -55,6 +55,30 @@ const categories = [
   },
 ];
 
+function RippleButton({ children, onClick, className }) {
+  const btnRef = useRef(null);
+
+  const handleClick = useCallback((e) => {
+    const btn = btnRef.current;
+    if (!btn) return;
+    const ripple = document.createElement("span");
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+    ripple.classList.add("ripple-effect");
+    ripple.addEventListener("animationend", () => ripple.remove());
+    btn.appendChild(ripple);
+  }, []);
+
+  return (
+    <button ref={btnRef} type="button" className={`ripple-btn ${className}`} onClick={(e) => { handleClick(e); onClick?.(e); }}>
+      {children}
+    </button>
+  );
+}
+
 export default function FAQ() {
   const [openIdx, setOpenIdx] = useState(null);
   const [search, setSearch] = useState("");
@@ -84,21 +108,26 @@ export default function FAQ() {
   let globalIndex = -1;
 
   return (
-    <section id="faq" className="bg-bg-white py-20 md:py-28">
-      <div className="max-w-3xl mx-auto px-4">
+    <section id="faq" className="relative py-20 md:py-28 overflow-hidden bg-bg-lavender">
+      <div className="absolute top-[-100px] right-1/4 w-80 h-80 rounded-full bg-lavender/5 blur-[100px] animate-float-slow" />
+
+      <div className="relative z-10 max-w-3xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
+          className="text-center"
         >
-          <h2 className="section-title text-center">
-            Frequently Asked <span className="text-royal-blue">Questions</span>
+          <div className="glass inline-block px-4 py-1.5 rounded-full mb-4">
+            <span className="text-xs font-semibold text-soft-purple tracking-wide">FAQ</span>
+          </div>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary">
+            Frequently Asked <span className="text-gradient">Questions</span>
           </h2>
-          <p className="section-subtitle mt-3 text-center">
+          <p className="section-subtitle mt-3">
             Quick answers to the most common questions we get at our shop.
           </p>
-          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <div className="mt-8 relative">
@@ -109,7 +138,7 @@ export default function FAQ() {
             onChange={(e) => { setSearch(e.target.value); setOpenIdx(null); }}
             placeholder="Search questions..."
             aria-label="Search frequently asked questions"
-            className="w-full pl-11 pr-4 py-3 bg-white border border-border-light rounded-xl text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-royal-blue/40 transition-colors"
+            className="w-full pl-11 pr-4 py-3 glass-card-static text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-soft-purple/30 transition-all rounded-2xl"
           />
         </div>
 
@@ -122,7 +151,7 @@ export default function FAQ() {
         >
           {displayCategories.map((cat) => (
             <div key={cat.label}>
-              <h3 className="font-heading text-sm font-semibold text-royal-blue uppercase tracking-wider mb-3">
+              <h3 className="font-heading text-sm font-semibold text-soft-purple uppercase tracking-wider mb-3">
                 {cat.label}
               </h3>
               <div className="space-y-2">
@@ -134,14 +163,17 @@ export default function FAQ() {
                   const panelId = `faq-panel-${idx}`;
 
                   return (
-                    <div
+                    <motion.div
                       key={idx}
-                      className="bg-white rounded-2xl shadow-sm border border-border-light overflow-hidden"
+                      layout
+                      className={`glass-card-static overflow-hidden transition-all duration-300 ${
+                        isOpen ? "shadow-md shadow-soft-purple/10 border-soft-purple/20" : ""
+                      }`}
                     >
-                      <button
+                      <RippleButton
                         id={btnId}
                         onClick={() => setOpenIdx(isOpen ? null : idx)}
-                        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left text-text-primary font-medium text-sm md:text-base hover:bg-bg-light-gray transition-colors"
+                        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left text-text-primary font-medium text-sm md:text-base hover:bg-soft-purple/5 transition-colors rounded-2xl"
                         aria-expanded={isOpen}
                         aria-controls={panelId}
                       >
@@ -149,10 +181,10 @@ export default function FAQ() {
                         <ChevronDown
                           size={18}
                           className={`shrink-0 transition-transform duration-300 ${
-                            isOpen ? "rotate-180 text-royal-blue" : "text-text-muted"
+                            isOpen ? "rotate-180 text-soft-purple" : "text-text-muted"
                           }`}
                         />
-                      </button>
+                      </RippleButton>
                       <AnimatePresence initial={false}>
                         {isOpen && (
                           <motion.div
@@ -171,7 +203,7 @@ export default function FAQ() {
                           </motion.div>
                         )}
                       </AnimatePresence>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>

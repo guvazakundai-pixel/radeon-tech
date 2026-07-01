@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Thermometer, Battery, HardDrive, Zap, AlertTriangle,
   Shield, ClipboardCheck, Database, Wifi, Monitor, Search,
-  Droplets, ChevronDown,
+  Droplets, ChevronDown, Lightbulb,
 } from "lucide-react";
 
 const articles = [
@@ -85,21 +85,26 @@ export default function KnowledgeCentre() {
   const [expanded, setExpanded] = useState(null);
 
   return (
-    <section id="knowledge" className="bg-bg-white py-20 md:py-28">
-      <div className="max-w-6xl mx-auto px-4">
+    <section id="knowledge" className="relative py-20 md:py-28 overflow-hidden bg-white">
+      <div className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-lavender/5 blur-[100px] animate-float-slow" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
+          className="text-center"
         >
-          <h2 className="section-title text-center">
-            Knowledge <span className="text-royal-blue">Centre</span>
+          <div className="glass inline-block px-4 py-1.5 rounded-full mb-4">
+            <span className="text-xs font-semibold text-soft-purple tracking-wide">KNOWLEDGE</span>
+          </div>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary">
+            Knowledge <span className="text-gradient">Centre</span>
           </h2>
-          <p className="section-subtitle mt-3 text-center">
+          <p className="section-subtitle mt-3">
             Helpful tech tips, guides, and advice to keep your devices running smoothly.
           </p>
-          <div className="w-20 h-1 bg-royal-blue mx-auto mt-4 rounded-full" />
         </motion.div>
 
         <motion.div
@@ -111,21 +116,25 @@ export default function KnowledgeCentre() {
         >
           {articles.map((article, i) => {
             const isOpen = expanded === i;
+            const Icon = article.icon;
 
             return (
-              <div
+              <motion.div
                 key={article.title}
-                className="bg-white rounded-2xl shadow-sm border border-border-light overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col"
+                layout
+                className={`glass-card-static overflow-hidden transition-all duration-300 ${
+                  isOpen ? "shadow-md shadow-soft-purple/10 border-soft-purple/20" : ""
+                }`}
               >
                 <button
                   type="button"
                   onClick={() => setExpanded(isOpen ? null : i)}
-                  className="text-left w-full p-5 flex-1 flex flex-col"
+                  className="text-left w-full p-5 flex flex-col"
                   aria-expanded={isOpen}
                   aria-controls={`article-content-${i}`}
                 >
-                  <div className="w-11 h-11 rounded-lg bg-royal-blue/10 flex items-center justify-center mb-3">
-                    <article.icon className="w-5 h-5 text-royal-blue" />
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-soft-purple/10 to-lavender/10 flex items-center justify-center mb-3">
+                    <Icon className="w-5 h-5 text-soft-purple" />
                   </div>
                   <h3 className="font-heading font-semibold text-base text-text-primary mb-1.5">
                     {article.title}
@@ -133,7 +142,7 @@ export default function KnowledgeCentre() {
                   <p className="text-text-secondary text-xs leading-relaxed flex-1">
                     {article.preview}
                   </p>
-                  <span className="inline-flex items-center gap-1 text-xs text-royal-blue hover:text-blue-700 transition-colors mt-3 font-medium">
+                  <span className="inline-flex items-center gap-1 text-xs text-soft-purple font-medium mt-3 transition-colors">
                     {isOpen ? "Show Less" : "Read More"}
                     <ChevronDown
                       size={14}
@@ -148,8 +157,8 @@ export default function KnowledgeCentre() {
                   {isOpen && (
                     <motion.div
                       id={`article-content-${i}`}
-                    role="region"
-                    aria-labelledby={`article-btn-${i}`}
+                      role="region"
+                      aria-labelledby={`article-btn-${i}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -162,7 +171,7 @@ export default function KnowledgeCentre() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </motion.div>
