@@ -4,21 +4,22 @@
   --font-heading: "Poppins", sans-serif;
   --font-body: "Inter", sans-serif;
 
-  --color-bg-lavender: #FAF8FF;
-  --color-bg-lilac: #F6F2FF;
-  --color-bg-white: #FFFFFF;
+  --color-bg-primary: #0B0B0B;
+  --color-bg-secondary: #121212;
+  --color-bg-surface: #1A1A1A;
+  --color-bg-card: #1E1E1E;
 
-  --color-lavender: #BFA8FF;
-  --color-soft-purple: #A78BFA;
-  --color-light-indigo: #8B7CFF;
+  --color-accent-blue: #4F6DFF;
+  --color-accent-purple: #7266FF;
+  --color-accent-cyan: #5BC0DE;
 
-  --color-text-primary: #1F1F28;
-  --color-text-secondary: #666680;
-  --color-text-muted: #8F90A6;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #6B6B6B;
   --color-text-white: #FFFFFF;
 
-  --color-border-light: #E8E6F0;
-  --color-border-medium: #D4D0E0;
+  --color-border-subtle: #2A2A2A;
+  --color-border-glass: rgba(255, 255, 255, 0.06);
 }
 
 html {
@@ -31,57 +32,283 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-text-primary);
-  background: var(--color-bg-lavender);
+  background: var(--color-bg-primary);
+  overflow-x: hidden;
 }
 
 ::selection {
-  background-color: var(--color-soft-purple);
+  background-color: var(--color-accent-blue);
   color: #FFFFFF;
 }
 
 .section-title {
-  @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary;
+  @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-white;
 }
 
 .section-subtitle {
   @apply text-text-secondary text-base md:text-lg max-w-2xl mx-auto leading-relaxed;
 }
 
+/* ============================================
+   ANIMATED BACKGROUND
+   ============================================ */
+.bg-circuit {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Layer 1: Dark gradient */
+.bg-circuit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, #0D0D1A 0%, #0B0B0B 50%, #0A0A0E 100%);
+  z-index: 0;
+}
+
+/* Layer 2: PCB traces - repeating circuitry pattern */
+.bg-circuit-layer-2 {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  z-index: 1;
+  background-image:
+    /* Horizontal traces */
+    repeating-linear-gradient(90deg, transparent 0px, transparent 60px, rgba(79, 109, 255, 0.3) 60px, rgba(79, 109, 255, 0.3) 61px, transparent 61px, transparent 120px),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 60px, rgba(79, 109, 255, 0.3) 60px, rgba(79, 109, 255, 0.3) 61px, transparent 61px, transparent 120px),
+    /* Diagonal traces */
+    repeating-linear-gradient(45deg, transparent 0px, transparent 80px, rgba(114, 102, 255, 0.2) 80px, rgba(114, 102, 255, 0.2) 81px, transparent 81px, transparent 160px),
+    repeating-linear-gradient(-45deg, transparent 0px, transparent 80px, rgba(114, 102, 255, 0.2) 80px, rgba(114, 102, 255, 0.2) 81px, transparent 81px, transparent 160px);
+  background-size: 120px 120px, 120px 120px, 160px 160px, 160px 160px;
+  animation: circuitDrift 120s linear infinite;
+}
+
+/* Layer 2: Circuit nodes */
+.bg-circuit-nodes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.05;
+}
+
+.bg-circuit-nodes span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-accent-blue);
+  box-shadow: 0 0 6px var(--color-accent-blue);
+  animation: nodePulse 4s ease-in-out infinite;
+}
+
+.bg-circuit-nodes span:nth-child(2n) {
+  width: 2px;
+  height: 2px;
+  background: var(--color-accent-purple);
+  box-shadow: 0 0 4px var(--color-accent-purple);
+  animation-duration: 5s;
+}
+
+.bg-circuit-nodes span:nth-child(3n) {
+  width: 4px;
+  height: 4px;
+  background: rgba(91, 192, 222, 0.8);
+  box-shadow: 0 0 8px rgba(91, 192, 222, 0.4);
+  animation-duration: 6s;
+}
+
+/* Layer 2: Electricity flowing along traces */
+.bg-circuit-flow {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0.06;
+}
+
+.bg-circuit-flow .particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--color-accent-blue);
+  box-shadow: 0 0 10px var(--color-accent-blue), 0 0 20px var(--color-accent-blue);
+  animation: flowParticle var(--duration, 8s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Layer 3: Engineering components - IC chips, gears, screws */
+.bg-circuit-layer-3 {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  z-index: 4;
+  background-image:
+    /* IC chip outlines */
+    repeating-linear-gradient(90deg, transparent 0px, transparent 200px, rgba(114, 102, 255, 0.5) 200px, rgba(114, 102, 255, 0.5) 201px, transparent 201px, transparent 220px),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 200px, rgba(114, 102, 255, 0.5) 200px, rgba(114, 102, 255, 0.5) 201px, transparent 201px, transparent 220px);
+  background-size: 220px 220px;
+  animation: circuitDrift 180s linear infinite reverse;
+}
+
+/* Layer 3: Rotating gear elements */
+.bg-circuit-gears {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0.025;
+}
+
+.bg-circuit-gears .gear {
+  position: absolute;
+  border: 1px solid var(--color-accent-purple);
+  border-radius: 50%;
+  animation: gearRotate 30s linear infinite;
+}
+
+.bg-circuit-gears .gear::before {
+  content: "";
+  position: absolute;
+  inset: 20%;
+  border: 1px solid var(--color-accent-purple);
+  border-radius: 50%;
+}
+
+.bg-circuit-gears .gear::after {
+  content: "";
+  position: absolute;
+  inset: 45%;
+  background: var(--color-accent-purple);
+  border-radius: 50%;
+}
+
+/* Layer 4: Slow moving light rays */
+.bg-circuit-light {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  opacity: 0.04;
+}
+
+.bg-circuit-light .ray {
+  position: absolute;
+  width: 200%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 109, 255, 0.6), transparent);
+  animation: lightRaySweep 25s ease-in-out infinite;
+  transform-origin: 0 50%;
+}
+
+.bg-circuit-light .ray:nth-child(2) {
+  width: 150%;
+  background: linear-gradient(90deg, transparent, rgba(114, 102, 255, 0.4), transparent);
+  animation-duration: 35s;
+  animation-delay: -10s;
+  top: 60%;
+}
+
+.bg-circuit-light .ray:nth-child(3) {
+  width: 180%;
+  background: linear-gradient(90deg, transparent, rgba(91, 192, 222, 0.3), transparent);
+  animation-duration: 30s;
+  animation-delay: -20s;
+  top: 30%;
+}
+
+/* Motherboard trace patterns */
+.bg-circuit-traces {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.02;
+  background-image:
+    /* L-shaped traces like PCB */
+    linear-gradient(90deg, transparent 100px, rgba(79, 109, 255, 0.4) 100px, rgba(79, 109, 255, 0.4) 102px, transparent 102px),
+    linear-gradient(0deg, transparent 200px, rgba(114, 102, 255, 0.3) 200px, rgba(114, 102, 255, 0.3) 202px, transparent 202px),
+    linear-gradient(45deg, transparent 300px, rgba(79, 109, 255, 0.2) 300px, rgba(79, 109, 255, 0.2) 301px, transparent 301px);
+  animation: traceDrift 90s linear infinite;
+}
+
+@keyframes circuitDrift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(30px, 20px); }
+  50% { transform: translate(-20px, 40px); }
+  75% { transform: translate(10px, -10px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes traceDrift {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-40px, 30px) rotate(0.5deg); }
+  66% { transform: translate(20px, -20px) rotate(-0.3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.8); }
+}
+
+@keyframes flowParticle {
+  0% { transform: translateX(-100px) translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 100px)) translateY(var(--y-offset, 0)); opacity: 0; }
+}
+
+@keyframes gearRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes lightRaySweep {
+  0% { transform: translateX(-100%) rotate(-10deg); opacity: 0; }
+  20% { opacity: 0.6; }
+  50% { transform: translateX(50%) rotate(5deg); opacity: 0.8; }
+  80% { opacity: 0.4; }
+  100% { transform: translateX(200%) rotate(15deg); opacity: 0; }
+}
+
+/* ============================================
+   DARK GLASS EFFECTS
+   ============================================ */
 .glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px rgba(163, 139, 250, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid var(--color-border-glass);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid var(--color-border-glass);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(163, 139, 250, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .glass-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 48px rgba(163, 139, 250, 0.15);
-  border-color: rgba(191, 168, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-color: rgba(79, 109, 255, 0.15);
 }
 
 .glass-card-static {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid var(--color-border-glass);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(163, 139, 250, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .glass-btn {
-  background: linear-gradient(135deg, #A78BFA, #8B7CFF);
+  background: linear-gradient(135deg, rgba(79, 109, 255, 0.9), rgba(114, 102, 255, 0.9));
   color: white;
   border: none;
   border-radius: 9999px;
@@ -89,7 +316,7 @@ body {
   font-weight: 600;
   font-size: 0.875rem;
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 4px 16px rgba(167, 139, 250, 0.25);
+  box-shadow: 0 4px 20px rgba(79, 109, 255, 0.25);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -97,7 +324,7 @@ body {
 
 .glass-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(167, 139, 250, 0.35);
+  box-shadow: 0 8px 30px rgba(79, 109, 255, 0.35);
 }
 
 .glass-btn:active {
@@ -105,10 +332,10 @@ body {
 }
 
 .glass-btn-outline {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(167, 139, 250, 0.3);
+  border: 1px solid rgba(79, 109, 255, 0.25);
   border-radius: 9999px;
   color: var(--color-text-primary);
   font-weight: 600;
@@ -121,24 +348,27 @@ body {
 }
 
 .glass-btn-outline:hover {
-  border-color: rgba(167, 139, 250, 0.6);
-  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(79, 109, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(163, 139, 250, 0.12);
-}
-
-.glow-purple {
-  box-shadow: 0 0 30px rgba(167, 139, 250, 0.15), 0 0 60px rgba(167, 139, 250, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #A78BFA, #8B7CFF);
+  background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Floating animation */
+/* Glowing accent */
+.glow-accent {
+  box-shadow: 0 0 30px rgba(79, 109, 255, 0.08), 0 0 60px rgba(79, 109, 255, 0.03);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
@@ -152,8 +382,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }
 
 @keyframes ripple {
@@ -161,6 +391,18 @@ body {
     transform: scale(4);
     opacity: 0;
   }
+}
+
+@keyframes circuitLine {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes electricityFlow {
+  0% { stroke-dashoffset: 200; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
 }
 
 .animate-float {
@@ -175,7 +417,6 @@ body {
   animation: pulse-glow 4s ease-in-out infinite;
 }
 
-/* Ripple effect */
 .ripple-btn {
   position: relative;
   overflow: hidden;
@@ -184,33 +425,50 @@ body {
 .ripple-btn .ripple-effect {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
   transform: scale(0);
   animation: ripple 0.6s linear;
   pointer-events: none;
 }
 
-/* Glass tilt */
 .tilt-card {
   transition: transform 0.1s ease-out;
   transform-style: preserve-3d;
   perspective: 1000px;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-lavender);
+  background: var(--color-bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-lavender);
+  background: var(--color-accent-blue);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-soft-purple);
+  background: var(--color-accent-purple);
+}
+
+/* Section separator glow */
+.section-glow-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 109, 255, 0.15), rgba(114, 102, 255, 0.1), transparent);
+}
+
+.section-glow-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 109, 255, 0.1), rgba(114, 102, 255, 0.05), transparent);
 }

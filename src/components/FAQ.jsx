@@ -1,63 +1,63 @@
 import { useState, useMemo, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, Search, MessageCircle } from "lucide-react";
+
+const WHATSAPP = "https://wa.me/263773066041";
 
 const categories = [
   {
     label: "Repairs & Services",
     items: [
-      { q: "How long does a typical computer repair take?", a: "Most repairs are completed within 24–48 hours. Complex issues like motherboard repairs or data recovery may take 3–5 business days. We always provide a clear timeline after diagnosis." },
-      { q: "Do you repair all laptop brands?", a: "Yes, we repair all major brands including HP, Dell, Lenovo, ASUS, Acer, MSI, Apple, Toshiba, Samsung, Huawei, and more. Bring it in for a free assessment regardless of the brand." },
-      { q: "Can you recover data from a dead hard drive?", a: "In many cases, yes. Our data recovery specialists can retrieve files from failed hard drives, SSDs, flash drives, and memory cards. Success depends on the extent of physical damage — we offer a free assessment." },
-      { q: "Do you offer on-site or remote support?", a: "We primarily operate from our Cyrus Mall shop, but we can arrange on-site visits for business clients. Remote support is available for software issues — contact us to discuss your needs." },
-      { q: "How do I know if my laptop needs servicing?", a: "Common signs include slow performance, overheating, unusual noises (clicking, grinding), battery draining quickly, frequent crashes, and unresponsive programs. If you notice any of these, bring it in for a free check." },
-      { q: "What does liquid damage repair involve?", a: "Liquid damage repair includes cleaning corrosion off the motherboard, replacing damaged components, and testing all subsystems. The sooner you bring it in after a spill, the better the chances of recovery." },
-      { q: "Can you upgrade my old laptop?", a: "Yes, depending on the model. Common upgrades include adding an SSD for faster performance, increasing RAM, and replacing the battery. We'll assess your laptop and advise on cost-effective upgrades." },
-      { q: "Do you repair gaming PCs?", a: "Absolutely. We handle GPU repairs, cooling system maintenance, PSU replacements, custom water cooling, and full gaming PC builds. Bring your rig in for a diagnosis." },
-      { q: "How often should I replace thermal paste?", a: "We recommend replacing thermal paste every 1–2 years, or sooner if you notice your CPU/GPU temperatures rising above normal levels during use." },
-      { q: "Do you offer emergency repair services?", a: "Yes, we prioritise emergency repairs for critical business equipment. Contact us directly to discuss urgent cases and we'll do our best to accommodate you." },
+      { q: "How long does a typical repair take?", a: "Most repairs are completed within 24-48 hours. Complex issues like motherboard repairs or data recovery may take 3-5 business days. We always provide a clear timeline after diagnosis." },
+      { q: "Do you repair MacBooks?", a: "Yes, we repair all MacBook models including MacBook Air, MacBook Pro 13-inch and 16-inch. We handle screen replacement, logic board repair, battery issues, keyboard replacement, and charging port repairs." },
+      { q: "Do you repair gaming laptops?", a: "Absolutely. We repair all gaming laptop brands including ASUS ROG, MSI, Alienware, Acer Predator, Lenovo Legion, and HP Omen. GPU repair, cooling system service, and performance optimization included." },
+      { q: "Do you offer warranties on repairs?", a: "Yes, all repairs come with a service warranty. If the same issue recurs within the warranty period, we fix it at no extra cost. Warranty length varies by the type of repair." },
+      { q: "Can I get a quotation first?", a: "Yes — we provide free, no-obligation quotations. You'll receive a detailed quote before any work begins and we never proceed without your approval." },
+      { q: "Do you repair liquid damage?", a: "Yes, we specialize in liquid damage recovery. The sooner you bring your device in after a spill, the better our chances of saving it. We disassemble, clean, and treat all affected components." },
+      { q: "Can you recover deleted files?", a: "In most cases, yes. We use professional data recovery tools to retrieve deleted files from hard drives, SSDs, flash drives, and memory cards. Success depends on whether the data has been overwritten." },
+      { q: "Can I book through WhatsApp?", a: "Yes! Simply send us a message on WhatsApp at +263 77 306 6041 and we'll help you schedule a repair, get a quote, or answer any questions." },
+      { q: "Do you repair business computers?", a: "Yes, we provide IT support for businesses including bulk repairs, computer deployment, networking, and annual maintenance contracts." },
+      { q: "Do you use genuine parts?", a: "We use genuine or high-quality compatible parts sourced from trusted suppliers. We clearly explain the options and let you choose what works best for your budget." },
+      { q: "How do I know if my laptop needs servicing?", a: "Common signs: slow performance, overheating, unusual noises (clicking/grinding), battery draining quickly, frequent crashes, and unresponsive programs. Bring it in for a free check." },
+      { q: "Can you upgrade my old laptop?", a: "Yes, depending on the model. Common upgrades include SSD installation, RAM upgrades, and battery replacement. We'll assess your laptop and advise on cost-effective improvements." },
     ],
   },
   {
-    label: "Products & Sales",
+    label: "Custom Builds & Products",
     items: [
-      { q: "Do you sell both new and refurbished computers?", a: "Yes. We stock brand-new laptops and desktops from authorised suppliers, as well as high-quality refurbished units that are fully tested, cleaned, and warrantied." },
-      { q: "What warranty do you offer on products?", a: "Warranty varies by product. New products come with manufacturer warranty. Refurbished units carry our in-house warranty. We clearly explain warranty terms before any purchase." },
-      { q: "Can you build a custom PC for me?", a: "Yes — gaming rigs, workstations for design/video editing, or budget-friendly office PCs. We spec the build to your budget and needs, and assemble and test everything in-house." },
-      { q: "Do you sell computer accessories?", a: "Yes, we stock a full range: keyboards, mice, chargers, cables, USB hubs, webcams, monitors, external drives, and more. Visit our shop to see what's available." },
-      { q: "What brands of laptops do you stock?", a: "We stock HP, Dell, Lenovo, ASUS, Acer, and Apple. Availability varies — contact us or visit the shop for current stock." },
-      { q: "Do you offer business bulk purchases?", a: "Yes, we offer special pricing for businesses, schools, NGOs, and government departments. Bulk orders are fully configured and delivered with warranty support." },
+      { q: "Can you build a custom PC for me?", a: "Yes — gaming rigs, workstations for design/video editing, streaming PCs, or budget-friendly office PCs. We spec the build to your budget, assemble professionally, and test everything in-house." },
+      { q: "Do you sell both new and refurbished computers?", a: "Yes. We stock brand-new laptops and desktops from authorised suppliers and professionally refurbished units that are fully tested, cleaned, and warrantied." },
+      { q: "What warranty comes with a custom build?", a: "All components carry their manufacturer warranty, and the build itself is covered by our workmanship warranty. We clearly explain all warranty terms before purchase." },
+      { q: "What brands of laptops do you stock?", a: "We stock HP, Dell, Lenovo, ASUS, Acer, Apple, and more. Availability varies — contact us or visit the shop for current stock." },
     ],
   },
   {
-    label: "Pricing & Warranty",
+    label: "Pricing & Payments",
     items: [
       { q: "How much does a typical repair cost?", a: "Costs vary depending on the issue. We provide a free diagnosis and a clear quote before any work begins. You'll never be charged without your approval." },
       { q: "Do you charge for diagnostics?", a: "No — diagnosis is completely free. We assess the issue, explain what needs to be done, and provide a quote with no obligation." },
       { q: "What payment methods do you accept?", a: "We accept cash, EcoCash, bank transfers, and SWIFT for international payments. We're flexible — ask us what works best." },
-      { q: "Is there a warranty on repair work?", a: "Yes, all repairs come with a service warranty. If the same issue recurs within the warranty period, we fix it at no extra cost." },
       { q: "Do you offer student discounts?", a: "Yes — we offer special pricing for students. Visit the shop with your student ID and we'll give you our best rate." },
-      { q: "Why should I repair instead of replacing my device?", a: "Repairing is often much cheaper than replacing, it's better for the environment, and you get to keep your data, software, and settings intact. We'll always recommend the most cost-effective option." },
+      { q: "Do you offer business bulk pricing?", a: "Yes, we offer competitive pricing for businesses, schools, NGOs, and government departments. Bulk orders are fully configured and delivered with warranty support." },
     ],
   },
   {
-    label: "Technical Questions",
+    label: "Technical Advice",
     items: [
-      { q: "SSD vs HDD — which is better?", a: "SSDs are significantly faster, more durable, and silent — ideal for your operating system and frequently used programs. HDDs offer more storage at a lower cost, good for backups and media. Many people use both." },
-      { q: "How much RAM do I need?", a: "8GB is the minimum for basic tasks. 16GB is recommended for most users (gaming, multitasking, office work). 32GB or more is ideal for video editing, 3D rendering, and heavy professional workloads." },
-      { q: "Why is my laptop overheating?", a: "Common causes: dust buildup inside the laptop, a failed cooling fan, dried-out thermal paste, or poor ventilation (using it on soft surfaces). Bring it in for a cleaning and diagnosis." },
-      { q: "How can I protect my computer from viruses?", a: "Use reputable antivirus software, keep your OS and applications updated, avoid clicking suspicious links, don't download from untrusted sources, and run regular scans. We can set all this up for you." },
-      { q: "Why is my computer running slow?", a: "Common causes: too many startup programs, low storage space, malware or viruses, insufficient RAM, outdated hardware, or background processes. We can diagnose and fix the root cause." },
-      { q: "How do I back up my data?", a: "The best approach is the 3-2-1 rule: 3 copies of your data, on 2 different types of media, with 1 copy off-site. We recommend external drives for local backups and cloud services for off-site." },
-      { q: "What's the best laptop for a student?", a: "It depends on their course, but generally: lightweight (under 1.8 kg), good battery life (8+ hours), reliable brand (HP, Dell, Lenovo), and at least 8GB RAM. Visit us and we'll help you choose." },
-      { q: "Can you help with Wi-Fi problems?", a: "Yes — we can help with router setup, signal issues, dead zones, network configuration, and troubleshooting slow or intermittent connections. We also sell networking equipment." },
+      { q: "SSD vs HDD — which is better?", a: "SSDs are significantly faster, more durable, and silent — ideal for your operating system and programs. HDDs offer more storage at a lower cost, good for backups. Many people use both." },
+      { q: "How much RAM do I need?", a: "8GB is the minimum. 16GB is recommended for most users. 32GB or more is ideal for video editing, 3D rendering, and heavy workloads." },
+      { q: "Why is my laptop overheating?", a: "Common causes: dust buildup, failed cooling fan, dried-out thermal paste, or poor ventilation. We offer thorough cleaning and thermal service." },
+      { q: "How can I protect my computer from viruses?", a: "Use reputable antivirus software, keep your OS updated, avoid suspicious links, don't download from untrusted sources, and run regular scans. We can set this up for you." },
+      { q: "Why is my computer running slow?", a: "Too many startup programs, low storage space, malware, insufficient RAM, or outdated hardware. We can diagnose and fix the root cause." },
+      { q: "How do I back up my data?", a: "Follow the 3-2-1 rule: 3 copies of data on 2 different media types, with 1 copy off-site. We recommend external drives and cloud services." },
+      { q: "What's the best laptop for a student?", a: "Lightweight (under 1.8 kg), good battery life (8+ hours), reliable brand, and at least 8GB RAM. Visit us and we'll help you choose." },
+      { q: "Can you help with Wi-Fi problems?", a: "Yes — router setup, signal issues, network configuration, troubleshooting slow connections. We also sell networking equipment." },
     ],
   },
 ];
 
 function RippleButton({ children, onClick, className }) {
   const btnRef = useRef(null);
-
   const handleClick = useCallback((e) => {
     const btn = btnRef.current;
     if (!btn) return;
@@ -71,7 +71,6 @@ function RippleButton({ children, onClick, className }) {
     ripple.addEventListener("animationend", () => ripple.remove());
     btn.appendChild(ripple);
   }, []);
-
   return (
     <button ref={btnRef} type="button" className={`ripple-btn ${className}`} onClick={(e) => { handleClick(e); onClick?.(e); }}>
       {children}
@@ -109,7 +108,7 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="relative py-20 md:py-28 overflow-hidden bg-bg-lavender">
-      <div className="absolute top-[-100px] right-1/4 w-80 h-80 rounded-full bg-lavender/5 blur-[100px] animate-float-slow" />
+      <div className="absolute top-[-100px] right-1/4 w-80 h-80 rounded-full bg-primary-red/5 blur-[100px] animate-float-slow" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4">
         <motion.div
@@ -120,13 +119,13 @@ export default function FAQ() {
           className="text-center"
         >
           <div className="glass inline-block px-4 py-1.5 rounded-full mb-4">
-            <span className="text-xs font-semibold text-soft-purple tracking-wide">FAQ</span>
+            <span className="text-xs font-semibold text-primary-red tracking-wide">FAQ</span>
           </div>
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary">
             Frequently Asked <span className="text-gradient">Questions</span>
           </h2>
           <p className="section-subtitle mt-3">
-            Quick answers to the most common questions we get at our shop.
+            Quick answers to the most common questions we get.
           </p>
         </motion.div>
 
@@ -138,7 +137,7 @@ export default function FAQ() {
             onChange={(e) => { setSearch(e.target.value); setOpenIdx(null); }}
             placeholder="Search questions..."
             aria-label="Search frequently asked questions"
-            className="w-full pl-11 pr-4 py-3 glass-card-static text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-soft-purple/30 transition-all rounded-2xl"
+            className="w-full pl-11 pr-4 py-3 glass-card-static text-text-primary text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary-red/30 transition-all rounded-2xl"
           />
         </div>
 
@@ -151,7 +150,7 @@ export default function FAQ() {
         >
           {displayCategories.map((cat) => (
             <div key={cat.label}>
-              <h3 className="font-heading text-sm font-semibold text-soft-purple uppercase tracking-wider mb-3">
+              <h3 className="font-heading text-sm font-semibold text-primary-red uppercase tracking-wider mb-3">
                 {cat.label}
               </h3>
               <div className="space-y-2">
@@ -159,38 +158,32 @@ export default function FAQ() {
                   globalIndex += 1;
                   const idx = globalIndex;
                   const isOpen = openIdx === idx;
-                  const btnId = `faq-btn-${idx}`;
-                  const panelId = `faq-panel-${idx}`;
 
                   return (
                     <motion.div
                       key={idx}
                       layout
                       className={`glass-card-static overflow-hidden transition-all duration-300 ${
-                        isOpen ? "shadow-md shadow-soft-purple/10 border-soft-purple/20" : ""
+                        isOpen ? "shadow-md shadow-primary-red/10 border-primary-red/20" : ""
                       }`}
                     >
                       <RippleButton
-                        id={btnId}
                         onClick={() => setOpenIdx(isOpen ? null : idx)}
-                        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left text-text-primary font-medium text-sm md:text-base hover:bg-soft-purple/5 transition-colors rounded-2xl"
+                        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left text-text-primary font-medium text-sm md:text-base hover:bg-primary-red/5 transition-colors rounded-2xl"
                         aria-expanded={isOpen}
-                        aria-controls={panelId}
                       >
                         <span>{faq.q}</span>
                         <ChevronDown
                           size={18}
                           className={`shrink-0 transition-transform duration-300 ${
-                            isOpen ? "rotate-180 text-soft-purple" : "text-text-muted"
+                            isOpen ? "rotate-180 text-primary-red" : "text-text-muted"
                           }`}
                         />
                       </RippleButton>
                       <AnimatePresence initial={false}>
                         {isOpen && (
                           <motion.div
-                            id={panelId}
                             role="region"
-                            aria-labelledby={btnId}
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
@@ -209,6 +202,25 @@ export default function FAQ() {
               </div>
             </div>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-10 text-center"
+        >
+          <p className="text-text-secondary text-sm mb-4">Still have questions? We&apos;re here to help.</p>
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-btn inline-flex items-center gap-2 text-sm px-6 py-3 no-underline"
+          >
+            <MessageCircle size={16} />
+            Ask on WhatsApp
+          </a>
         </motion.div>
       </div>
     </section>
