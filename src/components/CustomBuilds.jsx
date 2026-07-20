@@ -1,49 +1,15 @@
 import { motion } from "framer-motion";
-import { Gamepad2, Monitor, Cpu, Video, Edit3, Zap, Fan, Cable, ArrowUpRight, CheckCircle, MessageCircle } from "lucide-react";
-
-const WHATSAPP = "https://wa.me/263773066041";
-
-const builds = [
-  {
-    icon: Gamepad2, title: "Gaming PCs",
-    desc: "High-performance gaming rigs engineered for dominance. Ray tracing, high refresh rates, ultra settings.",
-    specs: ["Latest NVIDIA/AMD GPUs", "NVMe SSD Arrays", "Custom Liquid Cooling", "Premium Cable Management"],
-    img: "https://images.unsplash.com/photo-1587202372616-b43abea06c2a?w=400&q=80",
-  },
-  {
-    icon: Monitor, title: "Office PCs",
-    desc: "Reliable, silent, energy-efficient workstations engineered for maximum productivity.",
-    specs: ["Energy-Efficient Processors", "Quick SSD Storage", "Quiet Thermal Design", "Compact Professional Chassis"],
-    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80",
-  },
-  {
-    icon: Cpu, title: "Workstations",
-    desc: "Powerful engineering workstations for design, rendering, and data-intensive professional workloads.",
-    specs: ["Multi-Core Xeon/Ryzen CPUs", "ECC Memory Support", "Professional GPUs", "Massive Storage Arrays"],
-    img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&q=80",
-  },
-  {
-    icon: Video, title: "Streaming PCs",
-    desc: "Dual-PC or single-rig streaming engineering. Zero dropped frames, maximum production quality.",
-    specs: ["Dedicated Encoding", "High Core-Count CPUs", "Capture Card Ready", "OBS/Streamlabs Optimized"],
-    img: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&q=80",
-  },
-  {
-    icon: Edit3, title: "Video Editing PCs",
-    desc: "Render 4K and 8K footage with ease. Engineered for DaVinci Resolve, Premiere Pro, After Effects.",
-    specs: ["High-End Multi-Core CPUs", "64GB+ RAM Capacity", "NVMe RAID Arrays", "Color-Accurate GPUs"],
-    img: "https://images.unsplash.com/photo-1537432376077-2173002a6c23?w=400&q=80",
-  },
-];
-
-const reasons = [
-  { icon: Zap, title: "Superior Performance", text: "Every component hand-picked and optimized for your specific workload — zero bottlenecks, zero compromises." },
-  { icon: Fan, title: "Premium Thermal Engineering", text: "Expert airflow design, high-quality fans, and custom liquid cooling options for optimal temperatures." },
-  { icon: Cable, title: "Meticulous Cable Architecture", text: "Every build features precision cable routing for optimal airflow, aesthetics, and effortless future upgrades." },
-  { icon: ArrowUpRight, title: "Future-Ready Upgrade Paths", text: "We engineer with expansion in mind — ample slots, extra RAM channels, and modular power supplies." },
-];
+import { CheckCircle, MessageCircle } from "lucide-react";
+import { useContent } from "../hooks/useContent";
+import { WHATSAPP } from "../content/data";
+import { getIcon } from "../utils/icons";
 
 export default function CustomBuilds() {
+  const { data: builds } = useContent("builds");
+  const { data: buildReasons } = useContent("buildReasons");
+  const items = builds || [];
+  const reasons = buildReasons || [];
+
   return (
     <section id="builds" className="relative py-20 md:py-28 overflow-hidden bg-bg-secondary">
       <div className="section-glow-top" />
@@ -71,7 +37,7 @@ export default function CustomBuilds() {
           <motion.div className="space-y-6">
             <h3 className="font-heading text-2xl font-bold text-text-white">Why Custom Engineering</h3>
             {reasons.map((r, i) => {
-              const Icon = r.icon;
+              const Icon = getIcon(r.icon);
               return (
                 <motion.div
                   key={r.title}
@@ -103,8 +69,8 @@ export default function CustomBuilds() {
           </motion.div>
 
           <motion.div className="grid gap-4">
-            {builds.map((build, i) => {
-              const Icon = build.icon;
+            {items.map((build, i) => {
+              const Icon = getIcon(build.icon);
               return (
                 <motion.div
                   key={build.title}
@@ -124,7 +90,7 @@ export default function CustomBuilds() {
                     </div>
                     <p className="text-text-secondary text-xs leading-relaxed">{build.desc}</p>
                     <div className="flex flex-wrap gap-1.5 mt-2">
-                      {build.specs.map((s) => (
+                      {(build.specs || []).map((s) => (
                         <span key={s} className="inline-flex items-center gap-1 text-[10px] text-accent-blue bg-accent-blue/10 px-2 py-0.5 rounded-full">
                           <CheckCircle size={8} />
                           {s}

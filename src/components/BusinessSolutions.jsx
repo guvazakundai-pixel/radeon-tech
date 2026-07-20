@@ -1,18 +1,8 @@
 import { motion } from "framer-motion";
-import { Monitor, Wrench, Wifi, Computer, Users, Headphones, CalendarCheck, ClipboardList, MessageCircle } from "lucide-react";
-
-const WHATSAPP = "https://wa.me/263773066041";
-
-const services = [
-  { icon: Monitor, title: "Managed IT", desc: "Complete IT management for your business — monitoring, maintenance, support, and strategic planning. We keep your systems running smoothly." },
-  { icon: Wrench, title: "Maintenance", desc: "Regular PC maintenance, software updates, hardware checkups, and system optimization to prevent downtime." },
-  { icon: Wifi, title: "Networking", desc: "Office network design, installation, and management. Wired and wireless solutions with robust security." },
-  { icon: Computer, title: "Computer Deployment", desc: "Bulk computer setup, configuration, and deployment for new offices, upgrades, and expansions." },
-  { icon: Users, title: "Bulk Repairs", desc: "Volume repair services for businesses, schools, and organisations. Fleet-wide diagnostics and repairs at competitive rates." },
-  { icon: Headphones, title: "Office Support", desc: "On-call IT support for your office. Remote and on-site assistance for staff, hardware, and software issues." },
-  { icon: CalendarCheck, title: "Annual Maintenance", desc: "Comprehensive annual IT maintenance contracts covering all your technology assets with priority support." },
-  { icon: ClipboardList, title: "IT Consulting", desc: "Technology strategy, hardware procurement advice, network planning, and digital transformation guidance." },
-];
+import { MessageCircle } from "lucide-react";
+import { useContent } from "../hooks/useContent";
+import { WHATSAPP } from "../content/data";
+import { getIcon } from "../utils/icons";
 
 const fadeIn = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -22,10 +12,12 @@ const fadeIn = (delay = 0) => ({
 });
 
 export default function BusinessSolutions() {
+  const { data: services } = useContent("businessServices");
+  const items = services || [];
+
   return (
-    <section id="business" className="relative py-20 md:py-28 overflow-hidden bg-bg-lavender">
-      <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-metallic-blue/5 blur-[120px] animate-pulse-glow" />
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-primary-red/5 blur-[100px] animate-pulse-glow" style={{ animationDelay: "2s" }} />
+    <section id="business" className="relative py-20 md:py-28 overflow-hidden bg-bg-primary">
+      <div className="section-glow-top" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">
         <motion.div
@@ -36,7 +28,7 @@ export default function BusinessSolutions() {
           className="text-center"
         >
           <div className="glass inline-block px-4 py-1.5 rounded-full mb-4">
-            <span className="text-xs font-semibold text-primary-red tracking-wide">BUSINESS</span>
+            <span className="text-xs font-semibold text-accent-blue tracking-wide">BUSINESS</span>
           </div>
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary">
             Business <span className="text-gradient">Solutions</span>
@@ -52,16 +44,16 @@ export default function BusinessSolutions() {
           viewport={{ once: true, margin: "-80px" }}
           className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
         >
-          {services.map((s, i) => {
-            const Icon = s.icon;
+          {items.map((s, i) => {
+            const Icon = getIcon(s.icon);
             return (
               <motion.div
                 key={s.title}
                 {...fadeIn(i * 0.08)}
                 className="glass-card p-6 flex flex-col group"
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-metallic-blue/10 to-primary-red/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="w-7 h-7 text-metallic-blue" />
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent-blue/10 to-accent-purple/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="w-7 h-7 text-accent-blue" />
                 </div>
                 <h3 className="font-heading font-bold text-text-primary text-base mb-2">{s.title}</h3>
                 <p className="text-text-secondary text-xs leading-relaxed flex-1">{s.desc}</p>

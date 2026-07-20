@@ -472,3 +472,7 @@ body {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(79, 109, 255, 0.1), rgba(114, 102, 255, 0.05), transparent);
 }
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

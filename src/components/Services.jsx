@@ -1,32 +1,9 @@
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Laptop, Monitor, Gamepad2, Apple, Bug, MonitorCheck, FileWarning,
-  Database, Cpu, Keyboard, Plug, Smartphone, Battery, Search,
-  Wifi, Printer, Briefcase, ChevronDown, ChevronRight, MessageCircle,
-} from "lucide-react";
-
-const WHATSAPP = "https://wa.me/263773066041";
-
-const services = [
-  { icon: Laptop, title: "Laptop Repairs", img: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&q=80", desc: "Comprehensive laptop repair for all brands — screen, keyboard, motherboard, battery, and component-level diagnostics." },
-  { icon: Monitor, title: "Desktop Repairs", img: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400&q=80", desc: "Expert desktop repair including PSU, motherboard, GPU, RAM, cooling systems, and full engineering diagnostics." },
-  { icon: Apple, title: "MacBook Repairs", img: "https://images.unsplash.com/photo-1611186871348-b1ce696dd52a?w=400&q=80", desc: "Professional MacBook repair — screen, logic board, battery, keyboard, and charging system engineering." },
-  { icon: Gamepad2, title: "Gaming PC Repairs", img: "https://images.unsplash.com/photo-1587202372616-b43abea06c2a?w=400&q=80", desc: "Specialized gaming rig repair — GPU rework, liquid cooling service, PSU replacement, and thermal optimization." },
-  { icon: Bug, title: "Virus & Malware Removal", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&q=80", desc: "Enterprise-grade malware, ransomware, and spyware removal. Full system sanitization and protection deployment." },
-  { icon: MonitorCheck, title: "Windows Installation", img: "https://images.unsplash.com/photo-1560264280-88b68371db81?w=400&q=80", desc: "Professional Windows 10/11 deployment with driver optimization, security hardening, and software configuration." },
-  { icon: FileWarning, title: "Software Installation", img: "https://images.unsplash.com/photo-1537432376077-2173002a6c23?w=400&q=80", desc: "Application deployment, driver engineering, compatibility resolution, and enterprise software configuration." },
-  { icon: Database, title: "Data Recovery", img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80", desc: "Professional data recovery from failed drives, corrupted storage, accidental formatting, and physical damage." },
-  { icon: Cpu, title: "Motherboard Repairs", img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&q=80", desc: "Chip-level motherboard engineering — BGA rework, capacitor replacement, trace repair, and power IC restoration." },
-  { icon: Keyboard, title: "Keyboard Repairs", img: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80", desc: "Precision keyboard repair — stuck keys, liquid damage restoration, backlit replacement, and individual keycap service." },
-  { icon: Plug, title: "Charging Port Repairs", img: "https://images.unsplash.com/photo-1600267185393-e158a98703de?w=400&q=80", desc: "DC jack, USB-C, and MagSafe charging port repair and replacement for all laptop platforms." },
-  { icon: Smartphone, title: "Screen Replacement", img: "https://images.unsplash.com/photo-1600476788122-09c3e5cd40ae?w=400&q=80", desc: "Precision screen replacement using OEM-quality displays. Full calibration and quality assurance included." },
-  { icon: Battery, title: "Battery Replacement", img: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&q=80", desc: "Safe battery replacement and charging circuit diagnosis. Swollen battery disposal and power system restoration." },
-  { icon: Search, title: "Hardware Diagnostics", img: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=400&q=80", desc: "Complete hardware engineering analysis — CPU, GPU, RAM, storage, motherboard, and thermal system profiling." },
-  { icon: Wifi, title: "Networking Setup", img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80", desc: "Enterprise Wi-Fi deployment, router configuration, office network infrastructure, and security hardening." },
-  { icon: Printer, title: "Printer Support", img: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa2?w=400&q=80", desc: "Printer installation, driver engineering, network configuration, and maintenance for inkjet and laser systems." },
-  { icon: Briefcase, title: "Business IT Support", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80", desc: "Managed IT infrastructure, bulk computer deployment, office support, and annual maintenance contracts." },
-];
+import { ChevronDown, ChevronRight, MessageCircle } from "lucide-react";
+import { useContent } from "../hooks/useContent";
+import { WHATSAPP } from "../content/data";
+import { getIcon } from "../utils/icons";
 
 function RippleButton({ children, onClick, className }) {
   const btnRef = useRef(null);
@@ -52,6 +29,8 @@ function RippleButton({ children, onClick, className }) {
 
 export default function Services() {
   const [expanded, setExpanded] = useState(null);
+  const { data: services } = useContent("services");
+  const items = services || [];
 
   return (
     <section id="services" className="relative py-20 md:py-28 overflow-hidden bg-bg-primary">
@@ -77,9 +56,9 @@ export default function Services() {
         </motion.div>
 
         <motion.div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {services.map((service, i) => {
+          {items.map((service, i) => {
             const isOpen = expanded === i;
-            const Icon = service.icon;
+            const Icon = getIcon(service.icon);
             return (
               <motion.div
                 key={service.title}
@@ -97,9 +76,15 @@ export default function Services() {
                   className="w-full text-left flex items-start gap-4"
                   aria-expanded={isOpen}
                 >
-                  <div className="w-24 h-24 shrink-0 overflow-hidden rounded-l-2xl">
-                    <img src={service.img} alt={service.title} className="w-full h-full object-cover" loading="lazy" />
-                  </div>
+                  {service.img ? (
+                    <div className="w-24 h-24 shrink-0 overflow-hidden rounded-l-2xl">
+                      <img src={service.img} alt={service.title} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                  ) : (
+                    <div className="w-24 h-24 shrink-0 rounded-l-2xl bg-gradient-to-br from-accent-blue/5 to-accent-purple/5 flex items-center justify-center">
+                      <Icon className="w-8 h-8 text-accent-blue/30" />
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0 py-4 pr-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-3">

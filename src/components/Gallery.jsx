@@ -1,37 +1,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Image, ChevronDown } from "lucide-react";
-
-const categories = ["All", "Repairs", "Gaming PCs", "Workshop", "Networking", "Office"];
-
-const gallery = [
-  { src: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600&q=80", title: "Laptop Repair", category: "Repairs" },
-  { src: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=600&q=80", title: "Gaming PC Build", category: "Gaming PCs" },
-  { src: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", title: "Repair Bench", category: "Workshop" },
-  { src: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80", title: "Server Room", category: "Networking" },
-  { src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80", title: "Modern Office Setup", category: "Office" },
-  { src: "https://images.unsplash.com/photo-1600267185393-e158a98703de?w=600&q=80", title: "Motherboard Repair", category: "Repairs" },
-  { src: "https://images.unsplash.com/photo-1585620385456-4759f9b5c7d9?w=600&q=80", title: "Desktop Repair", category: "Repairs" },
-  { src: "https://images.unsplash.com/photo-1587202372616-b43abea06c2a?w=600&q=80", title: "Custom Gaming Rig", category: "Gaming PCs" },
-  { src: "https://images.unsplash.com/photo-1617005082133-548c4dd27f35?w=600&q=80", title: "Technician at Work", category: "Workshop" },
-  { src: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80", title: "Networking Equipment", category: "Networking" },
-  { src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80", title: "Team Collaboration", category: "Office" },
-  { src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80", title: "Conference Setup", category: "Office" },
-  { src: "https://images.unsplash.com/photo-1600476788122-09c3e5cd40ae?w=600&q=80", title: "PC Components", category: "Gaming PCs" },
-  { src: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80", title: "Diagnostic Tools", category: "Workshop" },
-  { src: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=600&q=80", title: "IT Support Desk", category: "Networking" },
-];
+import { Image } from "lucide-react";
+import { useContent } from "../hooks/useContent";
 
 export default function Gallery() {
+  const { data: categories } = useContent("galleryCategories");
+  const { data: gallery } = useContent("gallery");
   const [active, setActive] = useState("All");
   const [expanded, setExpanded] = useState(null);
 
-  const filtered = active === "All" ? gallery : gallery.filter((g) => g.category === active);
+  const cats = categories || ["All"];
+  const items = gallery || [];
+  const filtered = active === "All" ? items : items.filter((g) => g.category === active);
 
   return (
-    <section id="gallery" className="relative py-20 md:py-28 overflow-hidden bg-white">
-      <div className="absolute top-0 left-1/3 w-80 h-80 rounded-full bg-metallic-blue/5 blur-[100px] animate-float-slow" />
-      <div className="absolute bottom-0 right-1/3 w-72 h-72 rounded-full bg-primary-red/5 blur-[80px] animate-float-slow" style={{ animationDelay: "-3s" }} />
+    <section id="gallery" className="relative py-20 md:py-28 overflow-hidden bg-bg-secondary">
+      <div className="section-glow-top" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">
         <motion.div
@@ -42,7 +26,7 @@ export default function Gallery() {
           className="text-center"
         >
           <div className="glass inline-block px-4 py-1.5 rounded-full mb-4">
-            <span className="text-xs font-semibold text-primary-red tracking-wide">GALLERY</span>
+            <span className="text-xs font-semibold text-accent-blue tracking-wide">GALLERY</span>
           </div>
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary">
             Our <span className="text-gradient">Work</span>
@@ -53,7 +37,7 @@ export default function Gallery() {
         </motion.div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-          {categories.map((cat) => (
+          {cats.map((cat) => (
             <button
               key={cat}
               type="button"
@@ -61,7 +45,7 @@ export default function Gallery() {
               className={`px-4 py-2 text-xs font-semibold rounded-full transition-all duration-300 ${
                 active === cat
                   ? "glass-btn text-white"
-                  : "glass text-text-secondary hover:text-primary-red"
+                  : "glass text-text-secondary hover:text-accent-blue"
               }`}
             >
               {cat}
