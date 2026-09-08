@@ -23,6 +23,7 @@
 }
 
 html {
+  background: #070708;
   scroll-behavior: smooth;
 }
 
@@ -33,7 +34,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-text-primary);
   background: #070708;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+#root {
+  background: #070708;
+  min-height: 100vh;
 }
 
 ::selection {

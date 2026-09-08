@@ -53,7 +53,7 @@ export default function MobileNav() {
 
   return (
     <nav
-      className="lg:hidden fixed inset-0 z-50 pointer-events-none safe-area-bottom"
+      className="lg:hidden fixed bottom-0 inset-x-0 z-50 pointer-events-none safe-area-bottom"
       aria-label="Mobile bottom navigation"
     >
       <div className={`bottom-capsule pointer-events-auto ${hidden ? "hidden" : ""}`}>
