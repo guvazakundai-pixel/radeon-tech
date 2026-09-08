@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Image } from "lucide-react";
 import { useContent } from "../hooks/useContent";
 
@@ -14,7 +14,7 @@ export default function Gallery() {
   const filtered = active === "All" ? items : items.filter((g) => g.category === active);
 
   return (
-    <section id="gallery" className="relative py-20 md:py-28 overflow-hidden bg-bg-secondary">
+    <section id="gallery" className="relative py-20 md:py-28 overflow-hidden">
       <div className="section-glow-top" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">

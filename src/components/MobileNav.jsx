@@ -52,28 +52,26 @@ export default function MobileNav() {
   };
 
   return (
-    <nav
-      className="lg:hidden fixed bottom-0 inset-x-0 z-50 pointer-events-none safe-area-bottom"
+    <div
+      className={`bottom-capsule pointer-events-auto lg:hidden ${hidden ? "hidden" : ""}`}
       aria-label="Mobile bottom navigation"
     >
-      <div className={`bottom-capsule pointer-events-auto ${hidden ? "hidden" : ""}`}>
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const active = isActive(tab);
-          return (
-            <button
-              key={tab.label}
-              onClick={() => handleTabClick(tab)}
-              className={`capsule-tab ${active ? "active" : ""}`}
-              aria-label={tab.label}
-              aria-current={active ? "page" : undefined}
-            >
-              <Icon size={19} strokeWidth={active ? 2.2 : 1.6} />
-              <span className="capsule-tab-label">{tab.label}</span>
-            </button>
-          );
-        })}
-      </div>
-    </nav>
+      {tabs.map((tab) => {
+        const Icon = tab.icon;
+        const active = isActive(tab);
+        return (
+          <button
+            key={tab.label}
+            onClick={() => handleTabClick(tab)}
+            className={`capsule-tab ${active ? "active" : ""}`}
+            aria-label={tab.label}
+            aria-current={active ? "page" : undefined}
+          >
+            <Icon size={19} strokeWidth={active ? 2.2 : 1.6} />
+            <span className="capsule-tab-label">{tab.label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }

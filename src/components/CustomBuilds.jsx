@@ -11,7 +11,7 @@ export default function CustomBuilds() {
   const reasons = buildReasons || [];
 
   return (
-    <section id="builds" className="relative py-20 md:py-28 overflow-hidden bg-bg-secondary">
+    <section id="builds" className="relative py-20 md:py-28 overflow-hidden">
       <div className="section-glow-top" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">

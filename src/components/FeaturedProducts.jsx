@@ -8,7 +8,7 @@ export default function FeaturedProducts() {
   const items = featuredProducts || [];
 
   return (
-    <section id="products" className="relative py-20 md:py-28 overflow-hidden bg-bg-secondary">
+    <section id="products" className="relative py-20 md:py-28 overflow-hidden">
       <div className="section-glow-top" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">

@@ -3,8 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft, Search, Wrench, Loader2, User, Phone, Smartphone,
-  AlertTriangle, Clock, CheckCircle2, MessageCircle, Calendar,
+  ArrowLeft, Search, Wrench, Loader2, Smartphone, MessageCircle,
 } from "lucide-react";
 import { WHATSAPP } from "../content/data";
 

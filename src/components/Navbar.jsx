@@ -49,7 +49,7 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-[#0A0A0A]/80 backdrop-blur-xl border-b border-white/[0.03]"
+            ? "bg-[#0A0A0A]/92 border-b border-white/[0.04]"
             : "bg-transparent"
         }`}
         role="navigation"
@@ -128,7 +128,7 @@ export default function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
-            className="lg:hidden fixed inset-y-0 right-0 w-full sm:w-[85vw] max-w-sm bg-[#0A0A0A]/98 backdrop-blur-2xl z-[60] flex flex-col border-l border-white/[0.03]"
+            className="lg:hidden fixed inset-y-0 right-0 w-full sm:w-[85vw] max-w-sm bg-[#0A0A0A] z-[60] flex flex-col border-l border-white/[0.03]"
           >
             <div className="flex items-center justify-between px-6 h-16 border-b border-white/[0.03] shrink-0">
               <Link to="/" className="flex items-center gap-2.5 no-underline" onClick={() => setMobileOpen(false)}>
@@ -226,7 +226,7 @@ export default function Navbar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search products, services..."
                   autoFocus
-                  className="w-full pl-14 pr-24 py-5 rounded-2xl bg-[#141414]/95 backdrop-blur-xl border border-white/[0.04] text-white text-base placeholder:text-text-muted focus:outline-none focus:border-accent-blue/40 transition-all"
+                  className="w-full pl-14 pr-24 py-5 rounded-2xl bg-[#141414] border border-white/[0.04] text-white text-base placeholder:text-text-muted focus:outline-none focus:border-accent-blue/40 transition-all"
                 />
                 <button
                   type="submit"

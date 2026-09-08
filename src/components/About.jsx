@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Shield, Users, Award, Clock, CheckCircle, Headphones, Cpu } from "lucide-react";
 import { useContent } from "../hooks/useContent";
 import { getIcon } from "../utils/icons";
 
@@ -20,7 +19,7 @@ export default function About() {
   const txt = aboutText || {};
 
   return (
-    <section id="about" className="relative py-20 md:py-28 overflow-hidden bg-bg-secondary">
+    <section id="about" className="relative py-20 md:py-28 overflow-hidden">
       <div className="section-glow-top" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">

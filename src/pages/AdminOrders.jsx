@@ -3,8 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft, Search, ShoppingCart, Loader2, Eye, Trash2,
-  Package, User, Phone, Mail, MapPin, Clock, CheckCircle2, XCircle,
+  ArrowLeft, Search, ShoppingCart, Loader2,
 } from "lucide-react";
 
 const STATUS_COLORS = {
