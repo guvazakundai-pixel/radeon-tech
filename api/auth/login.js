@@ -1,29 +1,44 @@
-const SECRET = "radeon-tech-admin-secret-2025";
-const ADMIN_EMAIL = "admin@radeon.co.zw";
-const ADMIN_PASSWORD = "RadeonTech2025!";
-
-function sign(data) {
-  return Buffer.from(JSON.stringify({ data, secret: SECRET, exp: Date.now() + 86400000 })).toString("base64url");
-}
-
-function setCors(res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
+import {
+  handleCors,
+  getAdminLogin,
+  verifyPassword,
+  signToken,
+  safeAdminRecord,
+  ensureAdminSeed,
+} from "../_lib/auth.js";
 
 export default async function handler(req, res) {
-  setCors(res);
-  if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  if (handleCors(req, res, "POST, OPTIONS")) return;
 
-  const { email, password } = req.body || {};
-  if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // Seed the single default admin (admin / 12345678) if none exists yet.
+  await ensureAdminSeed();
+
+  const { username, password } = req.body || {};
+
+  if (!username || !password) {
+    return res.status(400).json({ error: "Username and password are required" });
+  }
+
+  const admin = await getAdminLogin();
+  if (!admin) {
+    return res.status(503).json({
+      error: "Admin account is not configured. Run the seed script or set BLOB_READ_WRITE_TOKEN.",
+    });
+  }
+
+  // Constant-time-ish comparison guard: bcrypt.compare already resists timing.
+  const ok = await verifyPassword(password, admin.password_hash);
+  if (!ok || admin.username !== username) {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
-  const token = sign({ email, role: "admin" });
-  const admin = { email, role: "admin", name: "Radeon Admin" };
-
-  return res.status(200).json({ token, admin });
+  const token = signToken({ username: admin.username, role: admin.role, sub: admin.id });
+  return res.status(200).json({
+    token,
+    admin: safeAdminRecord(admin),
+  });
 }

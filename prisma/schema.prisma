@@ -1,0 +1,134 @@
+// ---------------------------------------------------------------
+// Radeon Tech Investments — Canonical Database Schema
+//
+// The deployed runtime uses Vercel Blob as a JSON persistence
+// adapter (see /api/_lib/auth.js and the API routes). These models
+// define the authoritative field shapes shared by every layer; to
+// run against a managed PostgreSQL instance, migrate the JSON store
+// adapter to Prisma by swapping readJson/writeJson for the queries
+// below. Field names intentionally match the JSON payloads exactly.
+// ---------------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  MASTER_ADMIN
+}
+
+/// Exactly ONE record exists (id = "master"). Seeded on startup with
+/// username "admin" / password "12345678" (bcrypt, 12 rounds).
+model AdminUser {
+  id            String     @id @default("master")
+  username      String     @unique
+  password_hash String
+  role          AdminRole  @default(MASTER_ADMIN)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+}
+
+enum ProductCondition {
+  BRAND_NEW
+  REFURBISHED
+  PRE_OWNED_GRADE_A
+  PRE_OWNED_GRADE_B
+}
+
+enum StockStatus {
+  IN_STOCK
+  LOW_STOCK
+  PRE_ORDER
+  OUT_OF_STOCK
+}
+
+model Product {
+  id             String           @id @default(cuid())
+  title          String
+  slug           String           @unique
+  brand          String
+  category       String
+  subcategory    String?
+  condition      ProductCondition @default(BRAND_NEW)
+  price          Decimal          @db.Decimal(12, 2)
+  sale_price     Decimal?         @db.Decimal(12, 2)
+  original_price Decimal?         @db.Decimal(12, 2)
+  stock_quantity Int              @default(0)
+  stock_status   StockStatus
+  key_specs      Json             // { Processor, RAM, Storage, Display, GPU, Battery, OS, Warranty }
+  description    String           @db.Text // Rich HTML product features
+  short_desc     String?
+  main_image_url String?
+  gallery_urls   String[]         @default([])
+  sku            String?
+  tags           String[]         @default([])
+  is_featured    Boolean          @default(false)
+  is_bestseller  Boolean          @default(false)
+  archived       Boolean          @default(false)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+
+  @@index([category])
+  @@index([brand])
+  @@index([stock_status])
+  @@index([is_featured])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  image_url   String?
+  sort_order  Int       @default(0)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+}
+
+/// SiteContent stores EVERY dynamic string on the website as a JSON
+/// blob keyed by section_name. e.g. "heroText", "global",
+/// "promoBanners", "contactInfo", "pages", "footerServiceLinks".
+model SiteContent {
+  id           String   @id @default(cuid())
+  section_name String   @unique
+  content_data Json
+  updated_at   DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id           String          @id @default(cuid())
+  customer     String
+  phone        String
+  email        String?
+  address      String?
+  items        Json            // [{ productId, title, qty, price }]
+  total        Decimal         @db.Decimal(12, 2)
+  status       OrderStatus     @default(PENDING)
+  created_at   DateTime        @default(now())
+  updated_at   DateTime        @updatedAt
+}
+
+/// Uploaded media assets (main + 600x600 webp thumbnail URLs).
+model MediaAsset {
+  id             String   @id @default(cuid())
+  url            String
+  thumb_url      String?
+  original_name  String
+  mime_type      String?
+  size          Int?
+  created_at     DateTime @default(now())
+}

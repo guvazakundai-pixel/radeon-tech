@@ -1,57 +1,55 @@
 import { put } from "@vercel/blob";
-
-const SECRET = "radeon-tech-admin-secret-2025";
-
-function setCors(res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-}
-
-function verifyToken(token) {
-  try {
-    const decoded = JSON.parse(Buffer.from(token, "base64url").toString());
-    if (decoded.secret !== SECRET) return null;
-    if (decoded.exp < Date.now()) return null;
-    return decoded.data;
-  } catch { return null; }
-}
+import { handleCors, requireAuth } from "../_lib/auth.js";
 
 export default async function handler(req, res) {
-  setCors(res);
-  if (req.method === "OPTIONS") return res.status(200).end();
+  if (handleCors(req, res, "POST, OPTIONS")) return;
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Authentication required" });
-  }
-  const token = authHeader.slice(7);
-  if (!verifyToken(token)) {
-    return res.status(401).json({ error: "Invalid or expired token" });
-  }
+  const auth = requireAuth(req, res);
+  if (!auth) return;
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return res.status(503).json({ error: "Blob store not connected. Please connect it in the Vercel Dashboard." });
+    return res.status(503).json({ error: "Blob store not connected. Connect it in the Vercel Dashboard." });
   }
 
   try {
-    const { filename, data, contentType } = req.body || {};
+    const { filename, data, contentType, thumbData, thumbContentType } = req.body || {};
+
     if (!filename || !data) {
       return res.status(400).json({ error: "filename and data (base64) are required" });
     }
 
+    // Guard payload size (~2.5MB ceiling for the base64 body, images are pre-compressed client-side).
     const buffer = Buffer.from(data, "base64");
-    const ext = filename.split(".").pop() || "png";
-    const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const pathname = `radeon-uploads/${Date.now()}-${safeName}`;
+    if (buffer.length > 1.5 * 1024 * 1024) {
+      return res.status(400).json({ error: "Encoded image exceeds 1.5MB. Images are pre-optimized to WebP (<300KB)." });
+    }
 
-    const blob = await put(pathname, buffer, {
-      contentType: contentType || `image/${ext}`,
-      access: "public",
+    const base = filename.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-zA-Z0-9._-]/g, "_");
+
+    const putOpts = { access: "public", contentType: contentType || "image/webp" };
+
+    // Main image (optimized WebP, <300KB, ≤1280px)
+    const mainPathname = `radeon-uploads/${Date.now()}-${base}.webp`;
+    const main = await put(mainPathname, buffer, putOpts);
+
+    // Square thumbnail 600x600 (auto-generated client-side, uploaded alongside)
+    let thumbBlob = null;
+    if (thumbData) {
+      const thumbPathname = `radeon-uploads/${Date.now()}-${base}-thumb.webp`;
+      thumbBlob = await put(
+        thumbPathname,
+        Buffer.from(thumbData, "base64"),
+        { access: "public", contentType: thumbContentType || "image/webp" }
+      );
+    }
+
+    return res.status(200).json({
+      url: main.url,
+      pathname: main.pathname,
+      thumbUrl: thumbBlob ? thumbBlob.url : null,
+      size: buffer.length,
     });
-
-    return res.status(200).json({ url: blob.url, pathname: blob.pathname });
   } catch (err) {
     return res.status(500).json({ error: "Upload failed: " + err.message });
   }

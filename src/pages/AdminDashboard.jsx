@@ -1,551 +1,183 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useContent } from "../hooks/useContent";
 import {
-  LayoutDashboard, MessageSquare, HelpCircle, BarChart3,
-  Phone, Link2, Type, LogOut, Save, Plus, Trash2, Shield, Package,
-  Wrench, Cpu, Star, Newspaper, ShoppingCart, Award, Loader2, Cloud, HardDrive,
-  ExternalLink, ClipboardList, AlertTriangle,
+  ShoppingBag, AlertTriangle, Star, Trophy, Wallet, ClipboardList, Wrench,
+  Loader2, ArrowRight, Image as ImageIcon, ShieldCheck,  UploadCloud,
 } from "lucide-react";
-import ImageUpload from "../components/ImageUpload";
-import { saveContentToServer } from "../hooks/useContent";
 
-const sections = [
-  { key: "heroText", label: "Hero Text", icon: Type },
-  { key: "heroStats", label: "Hero Stats", icon: BarChart3 },
-  { key: "highlights", label: "About Highlights", icon: Award },
-  { key: "aboutValues", label: "Core Values", icon: Shield },
-  { key: "services", label: "Services", icon: Wrench },
-  { key: "builds", label: "Custom Builds", icon: Cpu },
-  { key: "whyChooseUs", label: "Why Choose Us", icon: Star },
-  { key: "processSteps", label: "Process Steps", icon: Package },
-  { key: "testimonials", label: "Testimonials", icon: MessageSquare },
-  { key: "faqCategories", label: "FAQs", icon: HelpCircle },
-  { key: "knowledgeArticles", label: "Knowledge Centre", icon: Newspaper },
-  { key: "featuredProducts", label: "Featured Products", icon: ShoppingCart },
-  { key: "brands", label: "Brands", icon: Package },
-  { key: "contactInfo", label: "Contact Info", icon: Phone },
-  { key: "socialLinks", label: "Social Links", icon: Link2 },
-];
-
-function KeyValueEditor({ data, onChange, fields }) {
-  const [values, setValues] = useState(data || {});
-  const update = (field, value) => {
-    const next = { ...values, [field]: value };
-    setValues(next);
-    onChange(next);
+function StatCard({ icon: Icon, label, value, sub, tone = "blue", to }) {
+  const toneMap = {
+    blue: "bg-accent-blue/12 text-accent-blue",
+    amber: "bg-amber-400/12 text-amber-400",
+    green: "bg-green-400/12 text-green-400",
+    purple: "bg-purple-400/12 text-purple-400",
+    muted: "bg-white/[0.05] text-text-secondary",
   };
   return (
-    <div className="space-y-3">
-      {fields.map((f) => (
-        <div key={f.key}>
-          <label className="block text-xs text-text-secondary mb-1">{f.label}</label>
-          {f.type === "image" ? (
-            <ImageUpload value={values[f.key] || ""} onChange={(val) => update(f.key, val)} />
-          ) : f.textarea ? (
-            <textarea value={values[f.key] || ""} onChange={(e) => update(f.key, e.target.value)} rows={3} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all resize-none" />
-          ) : (
-            <input value={values[f.key] || ""} onChange={(e) => update(f.key, e.target.value)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function HeroStatsEditor({ data, onChange }) {
-  const [items, setItems] = useState(data || []);
-  const update = (idx, field, value) => {
-    const next = [...items];
-    next[idx] = { ...next[idx], [field]: value };
-    setItems(next);
-    onChange(next);
-  };
-  return (
-    <div className="space-y-3">
-      {items.map((s, i) => (
-        <div key={i} className="rounded-xl border border-border-subtle bg-white/[0.02] p-3">
-          <div className="grid grid-cols-4 gap-3">
-            <div>
-              <label className="block text-xs text-text-secondary mb-1">Value</label>
-              <input type="number" value={s.value} onChange={(e) => update(i, "value", parseInt(e.target.value) || 0)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-            </div>
-            <div>
-              <label className="block text-xs text-text-secondary mb-1">Suffix</label>
-              <input value={s.suffix} onChange={(e) => update(i, "suffix", e.target.value)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-            </div>
-            <div>
-              <label className="block text-xs text-text-secondary mb-1">Prefix</label>
-              <input value={s.prefix || ""} onChange={(e) => update(i, "prefix", e.target.value)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-            </div>
-            <div>
-              <label className="block text-xs text-text-secondary mb-1">Label</label>
-              <input value={s.label} onChange={(e) => update(i, "label", e.target.value)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-            </div>
-          </div>
-          <button onClick={() => { const next = items.filter((_, j) => j !== i); setItems(next); onChange(next); }} className="mt-2 text-xs text-red-400/60 hover:text-red-400 transition-colors cursor-pointer">Remove</button>
-        </div>
-      ))}
-      <button onClick={() => { const next = [...items, { value: 0, suffix: "+", label: "New Stat" }]; setItems(next); onChange(next); }} className="flex items-center gap-2 text-xs font-medium text-accent-blue hover:text-accent-blue/80 transition-colors cursor-pointer"><Plus size={14} /> Add Stat</button>
-    </div>
-  );
-}
-
-function ListEditor({ data, onChange, fields, newItem }) {
-  const [items, setItems] = useState(data || []);
-  const [editIdx, setEditIdx] = useState(-1);
-
-  const update = (idx, field, value) => {
-    const next = [...items];
-    next[idx] = { ...next[idx], [field]: value };
-    setItems(next);
-    onChange(next);
-  };
-
-  const addItem = () => {
-    const next = [...items, { ...newItem }];
-    setItems(next);
-    onChange(next);
-    setEditIdx(next.length - 1);
-  };
-
-  return (
-    <div className="space-y-3">
-      {items.map((item, i) => (
-        <div key={i} className="rounded-xl border border-border-subtle bg-white/[0.02] overflow-hidden">
-          <button onClick={() => setEditIdx(editIdx === i ? -1 : i)} className="w-full flex items-center justify-between p-3 text-left hover:bg-white/[0.03] transition-colors cursor-pointer">
-            <span className="text-sm font-medium text-text-white truncate pr-4">{item.title || item.name || item.q || item.label || `Item ${i + 1}`}</span>
-            <div className="flex items-center gap-2 shrink-0">
-              {item.img && <div className="w-6 h-6 rounded bg-white/10 overflow-hidden"><img src={item.img} alt="" className="w-full h-full object-cover" /></div>}
-              <button onClick={(e) => { e.stopPropagation(); const next = items.filter((_, j) => j !== i); setItems(next); onChange(next); setEditIdx(-1); }} className="p-1 rounded-lg hover:bg-red-500/10 text-text-muted hover:text-red-400 transition-colors cursor-pointer"><Trash2 size={14} /></button>
-              <span className={`text-xs text-text-muted transition-transform ${editIdx === i ? "rotate-180" : ""}`}>▾</span>
-            </div>
-          </button>
-          {editIdx === i && (
-            <div className="p-4 border-t border-border-subtle space-y-3">
-              {fields.map((f) => (
-                <div key={f.key}>
-                  <label className="block text-xs text-text-secondary mb-1">{f.label}</label>
-                  {f.type === "textarea" ? (
-                    <textarea value={item[f.key] || ""} onChange={(e) => update(i, f.key, e.target.value)} rows={3} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all resize-none" />
-                  ) : f.type === "number" ? (
-                    <input type="number" min={f.min || 0} max={f.max || 999} value={item[f.key] || 0} onChange={(e) => update(i, f.key, parseInt(e.target.value) || 0)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-                  ) : f.type === "array" ? (
-                    <input value={(item[f.key] || []).join(", ")} onChange={(e) => update(i, f.key, e.target.value.split(",").map(s => s.trim()).filter(Boolean))} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" placeholder="Comma-separated" />
-                  ) : f.type === "image" ? (
-                    <ImageUpload value={item[f.key] || ""} onChange={(val) => update(i, f.key, val)} />
-                  ) : f.type === "rating" ? (
-                    <div className="flex gap-1">
-                      {[1,2,3,4,5].map(n => (
-                        <button key={n} type="button" onClick={() => update(i, f.key, n)} className={`p-1 cursor-pointer ${n <= (item[f.key] || 0) ? "text-amber-400" : "text-text-muted"}`}>★</button>
-                      ))}
-                    </div>
-                  ) : (
-                    <input value={item[f.key] || ""} onChange={(e) => update(i, f.key, e.target.value)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-      <button onClick={addItem} className="flex items-center gap-2 text-xs font-medium text-accent-blue hover:text-accent-blue/80 transition-colors cursor-pointer"><Plus size={14} /> Add Item</button>
-    </div>
-  );
-}
-
-function FAQCategoryEditor({ data, onChange }) {
-  const [items, setItems] = useState(data || []);
-  const [editCatIdx, setEditCatIdx] = useState(-1);
-  const [editItemIdx, setEditItemIdx] = useState(-1);
-
-  const updateCat = (idx, field, value) => {
-    const next = [...items];
-    next[idx] = { ...next[idx], [field]: value };
-    setItems(next);
-    onChange(next);
-  };
-
-  const updateFaq = (catIdx, faqIdx, field, value) => {
-    const next = [...items];
-    const newItems = [...next[catIdx].items];
-    newItems[faqIdx] = { ...newItems[faqIdx], [field]: value };
-    next[catIdx] = { ...next[catIdx], items: newItems };
-    setItems(next);
-    onChange(next);
-  };
-
-  return (
-    <div className="space-y-4">
-      {items.map((cat, ci) => (
-        <div key={ci} className="rounded-xl border border-border-subtle bg-white/[0.02] overflow-hidden">
-          <button onClick={() => setEditCatIdx(editCatIdx === ci ? -1 : ci)} className="w-full flex items-center justify-between p-3 text-left hover:bg-white/[0.03] transition-colors cursor-pointer">
-            <span className="text-sm font-semibold text-accent-blue">{cat.label} <span className="text-text-muted font-normal">({cat.items?.length || 0} FAQs)</span></span>
-            <div className="flex items-center gap-2">
-              <button onClick={(e) => { e.stopPropagation(); const next = items.filter((_, j) => j !== ci); setItems(next); onChange(next); }} className="p-1 rounded-lg hover:bg-red-500/10 text-text-muted hover:text-red-400 transition-colors cursor-pointer"><Trash2 size={14} /></button>
-              <span className={`text-xs text-text-muted transition-transform ${editCatIdx === ci ? "rotate-180" : ""}`}>▾</span>
-            </div>
-          </button>
-          {editCatIdx === ci && (
-            <div className="p-4 border-t border-border-subtle space-y-3">
-              <div>
-                <label className="block text-xs text-text-secondary mb-1">Category Label</label>
-                <input value={cat.label} onChange={(e) => updateCat(ci, "label", e.target.value)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-              </div>
-              <div className="space-y-2">
-                <label className="block text-xs text-text-secondary">FAQs in this category:</label>
-                {(cat.items || []).map((faq, fi) => (
-                  <div key={fi} className="rounded-lg border border-border-subtle bg-white/[0.01] overflow-hidden">
-                    <button onClick={() => setEditItemIdx(editItemIdx === `${ci}-${fi}` ? null : `${ci}-${fi}`)} className="w-full flex items-center justify-between p-2 text-left hover:bg-white/[0.02] transition-colors cursor-pointer">
-                      <span className="text-xs text-text-white truncate pr-2">{faq.q}</span>
-                      <div className="flex items-center gap-1 shrink-0">
-                        <button onClick={(e) => { e.stopPropagation(); const next = [...items]; next[ci] = { ...next[ci], items: next[ci].items.filter((_, j) => j !== fi) }; setItems(next); onChange(next); }} className="p-0.5 rounded hover:bg-red-500/10 text-text-muted hover:text-red-400 transition-colors cursor-pointer"><Trash2 size={12} /></button>
-                        <span className={`text-[10px] text-text-muted transition-transform ${editItemIdx === `${ci}-${fi}` ? "rotate-180" : ""}`}>▾</span>
-                      </div>
-                    </button>
-                    {editItemIdx === `${ci}-${fi}` && (
-                      <div className="p-3 border-t border-border-subtle space-y-2">
-                        <div>
-                          <label className="block text-[10px] text-text-secondary mb-0.5">Question</label>
-                          <input value={faq.q} onChange={(e) => updateFaq(ci, fi, "q", e.target.value)} className="w-full bg-white/5 border border-border-subtle rounded-lg px-2 py-1.5 text-xs text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-                        </div>
-                        <div>
-                          <label className="block text-[10px] text-text-secondary mb-0.5">Answer</label>
-                          <textarea value={faq.a} onChange={(e) => updateFaq(ci, fi, "a", e.target.value)} rows={3} className="w-full bg-white/5 border border-border-subtle rounded-lg px-2 py-1.5 text-xs text-text-white focus:outline-none focus:border-accent-blue/50 transition-all resize-none" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-                <button onClick={() => { const next = [...items]; next[ci] = { ...next[ci], items: [...(next[ci].items || []), { q: "New question?", a: "" }] }; setItems(next); onChange(next); }} className="flex items-center gap-1 text-[11px] text-accent-blue hover:text-accent-blue/80 transition-colors cursor-pointer"><Plus size={10} /> Add FAQ</button>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-      <button onClick={() => { const next = [...items, { label: "New Category", items: [] }]; setItems(next); onChange(next); setEditCatIdx(next.length - 1); }} className="flex items-center gap-2 text-xs font-medium text-accent-blue hover:text-accent-blue/80 transition-colors cursor-pointer"><Plus size={14} /> Add FAQ Category</button>
-    </div>
-  );
-}
-
-function StringListEditor({ data, onChange }) {
-  const [items, setItems] = useState(data || []);
-  const update = (idx, value) => {
-    const next = [...items];
-    next[idx] = value;
-    setItems(next);
-    onChange(next);
-  };
-  return (
-    <div className="space-y-2">
-      {items.map((item, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <input value={item} onChange={(e) => update(i, e.target.value)} className="flex-1 bg-white/5 border border-border-subtle rounded-lg px-3 py-2 text-sm text-text-white focus:outline-none focus:border-accent-blue/50 transition-all" />
-          <button onClick={() => { const next = items.filter((_, j) => j !== i); setItems(next); onChange(next); }} className="p-2 rounded-lg hover:bg-red-500/10 text-text-muted hover:text-red-400 transition-colors cursor-pointer"><Trash2 size={14} /></button>
-        </div>
-      ))}
-      <button onClick={() => { const next = [...items, "New Item"]; setItems(next); onChange(next); }} className="flex items-center gap-2 text-xs font-medium text-accent-blue hover:text-accent-blue/80 transition-colors cursor-pointer"><Plus size={14} /> Add Item</button>
-    </div>
-  );
-}
-
-function SectionEditor({ sectionKey, data, onSave, saving }) {
-  const [value, setValue] = useState(data);
-
-  const renderEditor = () => {
-    switch (sectionKey) {
-      case "heroText":
-        return <KeyValueEditor data={value} onChange={setValue} fields={[
-          { key: "badge", label: "Badge Text" },
-          { key: "headline1", label: "Headline 1" },
-          { key: "headline2", label: "Headline 2" },
-          { key: "subtitle", label: "Subtitle" },
-          { key: "description", label: "Description", textarea: true },
-        ]} />;
-      case "heroStats":
-        return <HeroStatsEditor data={value} onChange={setValue} />;
-      case "highlights":
-        return <ListEditor data={value} onChange={setValue} newItem={{ icon: "Clock", text: "New Highlight", value: "0" }} fields={[
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "text", label: "Text" },
-          { key: "value", label: "Value" },
-        ]} />;
-      case "aboutValues":
-        return <ListEditor data={value} onChange={setValue} newItem={{ icon: "Cpu", title: "New Value", text: "" }} fields={[
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "title", label: "Title" },
-          { key: "text", label: "Description", textarea: true },
-        ]} />;
-      case "services":
-        return <ListEditor data={value} onChange={setValue} newItem={{ icon: "Laptop", title: "New Service", img: "", desc: "" }} fields={[
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "title", label: "Title" },
-          { key: "img", label: "Image", type: "image" },
-          { key: "desc", label: "Description", textarea: true },
-        ]} />;
-      case "builds":
-        return <ListEditor data={value} onChange={setValue} newItem={{ icon: "Cpu", title: "New Build", desc: "", specs: [], img: "" }} fields={[
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "title", label: "Title" },
-          { key: "img", label: "Image", type: "image" },
-          { key: "desc", label: "Description", textarea: true },
-          { key: "specs", label: "Specs (comma-separated)", type: "array" },
-        ]} />;
-      case "whyChooseUs":
-        return <ListEditor data={value} onChange={setValue} newItem={{ icon: "Star", title: "New Reason", desc: "" }} fields={[
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "title", label: "Title" },
-          { key: "desc", label: "Description", textarea: true },
-        ]} />;
-      case "processSteps":
-        return <ListEditor data={value} onChange={setValue} newItem={{ num: 0, title: "New Step", desc: "", icon: "CheckCircle" }} fields={[
-          { key: "num", label: "Step Number", type: "number" },
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "title", label: "Title" },
-          { key: "desc", label: "Description", textarea: true },
-        ]} />;
-      case "testimonials":
-        return <ListEditor data={value} onChange={setValue} newItem={{ name: "New Client", location: "", service: "", rating: 5, text: "", img: "" }} fields={[
-          { key: "name", label: "Name" },
-          { key: "location", label: "Location" },
-          { key: "service", label: "Service" },
-          { key: "img", label: "Client Photo", type: "image" },
-          { key: "rating", label: "Rating", type: "rating" },
-          { key: "text", label: "Review Text", textarea: true },
-        ]} />;
-      case "faqCategories":
-        return <FAQCategoryEditor data={value} onChange={setValue} />;
-      case "knowledgeArticles":
-        return <ListEditor data={value} onChange={setValue} newItem={{ icon: "Cpu", title: "New Article", preview: "", content: "", img: "" }} fields={[
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "title", label: "Title" },
-          { key: "img", label: "Article Image", type: "image" },
-          { key: "preview", label: "Preview", textarea: true },
-          { key: "content", label: "Full Content", textarea: true },
-        ]} />;
-      case "featuredProducts":
-        return <ListEditor data={value} onChange={setValue} newItem={{ icon: "Laptop", name: "New Product", desc: "", img: "" }} fields={[
-          { key: "icon", label: "Icon Name (lucide)" },
-          { key: "name", label: "Name" },
-          { key: "img", label: "Product Image", type: "image" },
-          { key: "desc", label: "Description", textarea: true },
-        ]} />;
-      case "brands":
-        return <StringListEditor data={value} onChange={setValue} />;
-      case "contactInfo":
-        return <KeyValueEditor data={value} onChange={setValue} fields={[
-          { key: "address1", label: "Address Line 1" },
-          { key: "address2", label: "Address Line 2" },
-          { key: "address3", label: "Address Line 3" },
-          { key: "phone", label: "Phone" },
-          { key: "whatsapp", label: "WhatsApp" },
-          { key: "email", label: "Email" },
-          { key: "hours1", label: "Hours Line 1" },
-          { key: "hours2", label: "Hours Line 2" },
-          { key: "logo", label: "Logo Image", type: "image" },
-          { key: "mapEmbed", label: "Google Maps Embed URL" },
-        ]} />;
-      case "socialLinks":
-        return <KeyValueEditor data={value} onChange={setValue} fields={[
-          { key: "facebook", label: "Facebook URL" },
-          { key: "instagram", label: "Instagram URL" },
-          { key: "linkedin", label: "LinkedIn URL" },
-          { key: "whatsapp", label: "WhatsApp URL" },
-        ]} />;
-      default:
-        return <p className="text-text-muted text-sm">No editor available for this section.</p>;
-    }
-  };
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-text-white">{sections.find((s) => s.key === sectionKey)?.label || sectionKey}</h2>
-        <button onClick={() => onSave(sectionKey, value)} disabled={saving} className="flex items-center gap-2 glass-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer disabled:opacity-50">
-          {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} {saving ? "Saving..." : "Save"}
-        </button>
+    <Link
+      to={to || "#"}
+      className="glass-card p-5 flex items-start justify-between gap-3 no-underline hover:border-white/[0.12] transition-colors"
+    >
+      <div>
+        <p className="text-[11px] uppercase tracking-wider text-text-muted mb-2">{label}</p>
+        <p className="font-heading text-3xl font-bold text-text-white tracking-tight" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
+          {value}
+        </p>
+        {sub && <p className="text-xs text-text-muted mt-1.5">{sub}</p>}
       </div>
-      {renderEditor()}
-    </div>
+      <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${toneMap[tone]}`}>
+        <Icon size={20} />
+      </div>
+    </Link>
   );
 }
 
 export default function AdminDashboard() {
-  const { isAuthenticated, loading, logout, token } = useAuth();
-  const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState("heroText");
-  const [contentData, setContentData] = useState({});
-  const [loadingContent, setLoadingContent] = useState(true);
-  const [saveMsg, setSaveMsg] = useState("");
-  const [saving, setSaving] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { token } = useAuth();
+  const { data: global } = useContent("global");
+  const [stats, setStats] = useState({
+    products: 0,
+    lowStock: 0,
+    outOfStock: 0,
+    featured: 0,
+    bestsellers: 0,
+    orders: 0,
+    repairs: 0,
+  });
+  const [loadingStats, setLoadingStats] = useState(true);
   const [storageMode, setStorageMode] = useState("checking");
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) navigate("/admin/login");
-  }, [loading, isAuthenticated, navigate]);
+    const load = async () => {
+      try {
+        const [prodRes, orderRes, repairRes] = await Promise.all([
+          fetch("/api/products?limit=200"),
+          fetch("/api/orders", { headers: { Authorization: `Bearer ${token}` } }),
+          fetch("/api/repairs", { headers: { Authorization: `Bearer ${token}` } }),
+        ]);
+        const prods = (await prodRes.json()).products || [];
+        setStats((s) => ({
+          ...s,
+          products: prods.length,
+          lowStock: prods.filter((p) => (p.stock_status || "").toLowerCase().includes("low")).length,
+          outOfStock: prods.filter((p) => (p.stock_status || "").toLowerCase().includes("out")).length,
+          featured: prods.filter((p) => p.featured === true || p.is_featured === true).length,
+          bestsellers: prods.filter((p) => p.is_bestseller === true).length,
+        }));
+        if (orderRes.ok) {
+          const orders = await orderRes.json();
+          setStats((s) => ({ ...s, orders: Array.isArray(orders) ? orders.length : orders.orders?.length || 0 }));
+        }
+        if (repairRes.ok) {
+          const repairs = await repairRes.json();
+          setStats((s) => ({ ...s, repairs: Array.isArray(repairs) ? repairs.length : repairs.repairs?.length || 0 }));
+        }
 
-  useEffect(() => {
-    const fetchAll = async () => {
-      const results = {};
-      let mode = "default";
-      for (const s of sections) {
-        try {
-          const res = await fetch(`/api/content/${s.key}`);
-          if (res.ok) {
-            const json = await res.json();
-            results[s.key] = json.value;
-            if (json.source === "blob") mode = "blob";
-          }
-        } catch {}
+        const checkRes = await fetch("/api/content/heroText");
+        if (checkRes.ok) {
+          const json = await checkRes.json();
+          setStorageMode(json.source === "blob" ? "Cloud storage connected" : "Defaults in use");
+        }
+      } catch {} finally {
+        setLoadingStats(false);
       }
-      setContentData(results);
-      setStorageMode(mode);
-      setLoadingContent(false);
     };
-    if (isAuthenticated) fetchAll();
-  }, [isAuthenticated]);
+    if (token) load();
+  }, [token]);
 
-  const handleSave = async (key, value) => {
-    setSaveMsg("");
-    setSaving(true);
-    try {
-      await saveContentToServer(key, value, token);
-      setContentData((prev) => ({ ...prev, [key]: value }));
-      setSaveMsg("Saved to server successfully");
-      setTimeout(() => setSaveMsg(""), 3000);
-    } catch {
-      setSaveMsg("Failed to save to server");
-      setTimeout(() => setSaveMsg(""), 3000);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  if (loading || !isAuthenticated) {
+  if (loadingStats) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-primary">
-        <div className="text-text-muted text-sm font-light">Loading...</div>
+      <div className="p-8 flex items-center justify-center text-text-muted text-sm gap-2 min-h-[60vh]">
+        <Loader2 size={16} className="animate-spin" /> Loading dashboard...
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen flex bg-bg-primary">
-      {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+  const g = global || {};
+  const valueDollars = stats.products; // placeholder line to satisfy linters in future use
+  void valueDollars;
 
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-bg-secondary border-r border-border-subtle flex flex-col transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
-        <div className="p-5 border-b border-border-subtle">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-blue to-accent-purple flex items-center justify-center shadow-lg">
-              <Shield size={18} className="text-white" />
+  return (
+    <div className="p-6 md:p-8 max-w-6xl">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <h1 className="font-heading text-2xl md:text-3xl font-bold text-text-white tracking-tight">
+            Dashboard
+          </h1>
+          <p className="text-text-muted text-sm mt-1">
+            {g.businessName || "Radeon Tech"} · Overview of your store
+          </p>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-text-muted">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06]">
+            {storageMode === "Cloud storage connected"
+              ? <><UploadCloud size={12} className="text-green-400" /> {storageMode}</>
+              : <><ImageIcon size={12} className="text-amber-400" /> {storageMode}</>}
+          </span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <StatCard icon={ShoppingBag} label="Total Products" value={stats.products}
+          sub={`${stats.outOfStock} out of stock`} tone="blue" to="/admin/products" />
+        <StatCard icon={AlertTriangle} label="Low Stock" value={stats.lowStock}
+          sub="Items needing restock" tone="amber" to="/admin/products" />
+        <StatCard icon={Star} label="Featured Items" value={stats.featured}
+          sub="On the homepage" tone="purple" to="/admin/products" />
+        <StatCard icon={Trophy} label="Bestsellers" value={stats.bestsellers}
+          sub="Top sellers" tone="green" to="/admin/products" />
+        <StatCard icon={Wallet} label="Orders" value={stats.orders}
+          sub="All time" tone="blue" to="/admin/orders" />
+        <StatCard icon={Wrench} label="Repair Requests" value={stats.repairs}
+          sub="Service intake" tone="muted" to="/admin/repairs" />
+      </div>
+
+      <div className="mt-8 grid lg:grid-cols-2 gap-4">
+        <Link to="/admin/products"
+          className="glass-card p-6 flex items-center justify-between no-underline hover:border-accent-blue/25 transition-colors group">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 rounded-xl bg-accent-blue/12 text-accent-blue flex items-center justify-center">
+              <ShoppingBag size={20} />
             </div>
             <div>
-              <p className="text-text-white font-bold text-sm">Admin Panel</p>
-              <p className="text-text-muted text-xs">Radeon Tech</p>
+              <p className="text-sm font-semibold text-text-white">Manage Products</p>
+              <p className="text-xs text-text-muted mt-0.5">Add, edit, restock and feature items</p>
             </div>
           </div>
-        </div>
+          <ArrowRight size={16} className="text-text-muted group-hover:text-accent-blue group-hover:translate-x-1 transition-all" />
+        </Link>
 
-        <div className="px-4 py-2.5 border-b border-border-subtle">
-          <div className={`flex items-center gap-2 text-[11px] px-2.5 py-1.5 rounded-lg ${
-            storageMode === "blob"
-              ? "bg-green-400/10 text-green-400"
-              : storageMode === "default"
-              ? "bg-amber-400/10 text-amber-400"
-              : "bg-white/5 text-text-muted"
-          }`}>
-            {storageMode === "blob" ? <Cloud size={12} /> : <HardDrive size={12} />}
-            {storageMode === "blob" ? "Cloud Storage" : storageMode === "default" ? "Default Content" : "Checking..."}
+        <Link to="/admin/cms"
+          className="glass-card p-6 flex items-center justify-between no-underline hover:border-accent-blue/25 transition-colors group">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 rounded-xl bg-purple-400/12 text-purple-400 flex items-center justify-center">
+              <ShieldCheck size={20} />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-text-white">Edit Site Content</p>
+              <p className="text-xs text-text-muted mt-0.5">Hero, announcements, contacts and pages</p>
+            </div>
+          </div>
+          <ArrowRight size={16} className="text-text-muted group-hover:text-accent-blue group-hover:translate-x-1 transition-all" />
+        </Link>
+      </div>
+
+      <div className="mt-8">
+        <div className="glass-card p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <ClipboardList size={16} className="text-accent-blue" />
+            <h2 className="text-sm font-semibold text-text-white">Quick actions</h2>
+          </div>
+          <div className="flex flex-wrap gap-2.5">
+            <Link to="/admin/products" className="text-xs px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.06] text-text-secondary hover:text-white hover:border-accent-blue/30 transition-colors no-underline">Add Product</Link>
+            <Link to="/admin/cms" className="text-xs px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.06] text-text-secondary hover:text-white hover:border-accent-blue/30 transition-colors no-underline">Announcement Bar</Link>
+            <Link to="/admin/media" className="text-xs px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.06] text-text-secondary hover:text-white hover:border-accent-blue/30 transition-colors no-underline">Media Library</Link>
+            <Link to="/admin/security" className="text-xs px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.06] text-text-secondary hover:text-white hover:border-accent-blue/30 transition-colors no-underline">Change Password</Link>
           </div>
         </div>
-
-        <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-          <p className="text-[10px] font-semibold text-text-muted tracking-wider uppercase px-3 pt-1 pb-2">Content Editor</p>
-          {sections.map((s) => {
-            const Icon = s.icon;
-            return (
-              <button
-                key={s.key}
-                onClick={() => { setActiveSection(s.key); setSidebarOpen(false); }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${
-                  activeSection === s.key
-                    ? "bg-accent-blue/15 text-accent-blue"
-                    : "text-text-muted hover:text-text-secondary hover:bg-white/[0.03]"
-                }`}
-              >
-                <Icon size={16} /> {s.label}
-              </button>
-            );
-          })}
-
-          <div className="border-t border-border-subtle my-2 pt-2">
-            <p className="text-[10px] font-semibold text-text-muted tracking-wider uppercase px-3 pb-2">Management</p>
-            {[
-              { label: "Products", icon: Package, path: "/admin/products" },
-              { label: "Orders", icon: ClipboardList, path: "/admin/orders" },
-              { label: "Repair Requests", icon: AlertTriangle, path: "/admin/repairs" },
-            ].map((item) => {
-              const Icon = item.icon;
-              return (
-                <a
-                  key={item.label}
-                  href={item.path}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-text-muted hover:text-text-secondary hover:bg-white/[0.03] no-underline"
-                >
-                  <Icon size={16} /> {item.label}
-                  <ExternalLink size={12} className="ml-auto opacity-40" />
-                </a>
-              );
-            })}
-          </div>
-        </nav>
-
-        <div className="p-3 border-t border-border-subtle">
-          <button
-            onClick={() => { logout(); navigate("/"); }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:text-red-400 hover:bg-red-400/5 transition-all cursor-pointer"
-          >
-            <LogOut size={16} /> Logout
-          </button>
-        </div>
-      </aside>
-
-      <main className="flex-1 min-h-screen">
-        <div className="lg:hidden sticky top-0 z-30 bg-bg-secondary border-b border-border-subtle px-4 py-3 flex items-center gap-3">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg bg-white/5 text-text-secondary cursor-pointer">
-            <LayoutDashboard size={18} />
-          </button>
-          <span className="text-sm font-medium text-text-white">Admin Dashboard</span>
-        </div>
-
-        <div className="p-6 md:p-8 max-w-4xl">
-          {saveMsg && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`mb-4 text-xs font-medium px-4 py-2 rounded-lg ${
-                saveMsg.includes("Failed") ? "bg-red-400/10 text-red-400 border border-red-400/20" : "bg-green-400/10 text-green-400 border border-green-400/20"
-              }`}
-            >
-              {saveMsg}
-            </motion.div>
-          )}
-
-          {loadingContent ? (
-            <div className="text-text-muted text-sm font-light py-20 text-center">Loading content...</div>
-          ) : (
-            <SectionEditor
-              key={activeSection}
-              sectionKey={activeSection}
-              data={contentData[activeSection]}
-              onSave={handleSave}
-              saving={saving}
-            />
-          )}
-        </div>
-      </main>
+      </div>
     </div>
   );
 }

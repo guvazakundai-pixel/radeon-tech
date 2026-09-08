@@ -4,7 +4,7 @@ import * as defaultData from "../content/data.js";
 const cache = {};
 
 export function useContent(key) {
-  const [data, setData] = useState(() => {
+  const [data, setDataValue] = useState(() => {
     if (cache[key]) return cache[key];
     return defaultData[key] || null;
   });
@@ -17,12 +17,12 @@ export function useContent(key) {
         const json = await res.json();
         if (json.value) {
           cache[key] = json.value;
-          setData(json.value);
+          setDataValue(json.value);
         }
       }
     } catch {
       if (!cache[key] && defaultData[key]) {
-        setData(defaultData[key]);
+        setDataValue(defaultData[key]);
       }
     } finally {
       setLoading(false);
@@ -31,7 +31,12 @@ export function useContent(key) {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
-  return { data, loading, refetch: fetchData };
+  const setData = (val) => {
+    cache[key] = val;
+    setDataValue(val);
+  };
+
+  return { data, loading, refetch: fetchData, setData };
 }
 
 export function saveContent(key, value) {

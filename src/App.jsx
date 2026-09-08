@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Navbar from "./components/Navbar";
@@ -9,9 +9,13 @@ import ServicePanels from "./components/ServicePanels";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Background from "./components/Background";
+import AdminLayout from "./components/admin/AdminLayout";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProducts from "./pages/AdminProducts";
+import AdminCMS from "./pages/AdminCMS";
+import AdminMedia from "./pages/AdminMedia";
+import AdminSecurity from "./pages/AdminSecurity";
 import AdminOrders from "./pages/AdminOrders";
 import AdminRepairs from "./pages/AdminRepairs";
 import ProductDetail from "./pages/ProductDetail";
@@ -64,10 +68,17 @@ export default function App() {
       <AuthProvider>
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/repairs" element={<AdminRepairs />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="cms" element={<AdminCMS />} />
+            <Route path="media" element={<AdminMedia />} />
+            <Route path="security" element={<AdminSecurity />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="repairs" element={<AdminRepairs />} />
+            <Route path="*" element={<Navigate to="dashboard" replace />} />
+          </Route>
           <Route path="/shop" element={<PageLayout><StorePage /></PageLayout>} />
           <Route path="/store" element={<PageLayout><StorePage /></PageLayout>} />
           <Route path="/shop/:id" element={<PageLayout><ProductDetail /></PageLayout>} />
