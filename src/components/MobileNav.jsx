@@ -1,5 +1,5 @@
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Home, ShoppingBag, Wrench, Phone, Bot } from "lucide-react";
 import { WHATSAPP } from "../content/data";
 
@@ -14,6 +14,19 @@ const tabs = [
 export default function MobileNav() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y > lastY.current && y > 120 && !hidden) setHidden(true);
+      else if (y < lastY.current && hidden) setHidden(false);
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [hidden]);
 
   const isActive = (tab) => {
     if (tab.to) {
@@ -40,41 +53,26 @@ export default function MobileNav() {
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 inset-x-0 z-50 safe-area-bottom"
+      className="lg:hidden fixed inset-0 z-50 pointer-events-none safe-area-bottom"
       aria-label="Mobile bottom navigation"
     >
-      <div className="bottom-bar relative">
-        <div className="flex items-center justify-around h-16 px-3">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const active = isActive(tab);
-            return (
-              <button
-                key={tab.label}
-                onClick={() => handleTabClick(tab)}
-                className={`relative flex flex-col items-center justify-center gap-1 w-14 py-1.5 rounded-xl transition-all duration-300 cursor-pointer ${
-                  active
-                    ? "text-accent-blue"
-                    : "text-text-muted hover:text-text-secondary"
-                }`}
-                aria-label={tab.label}
-                aria-current={active ? "page" : undefined}
-              >
-                {active && (
-                  <motion.div
-                    layoutId="mobile-nav-indicator"
-                    className="absolute -top-0.5 w-5 h-0.5 rounded-full bg-accent-blue"
-                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  />
-                )}
-                <Icon size={19} strokeWidth={active ? 2.2 : 1.6} />
-                <span className="text-[10px] font-medium leading-none tracking-wide">
-                  {tab.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+      <div className={`bottom-capsule pointer-events-auto ${hidden ? "hidden" : ""}`}>
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const active = isActive(tab);
+          return (
+            <button
+              key={tab.label}
+              onClick={() => handleTabClick(tab)}
+              className={`capsule-tab ${active ? "active" : ""}`}
+              aria-label={tab.label}
+              aria-current={active ? "page" : undefined}
+            >
+              <Icon size={19} strokeWidth={active ? 2.2 : 1.6} />
+              <span className="capsule-tab-label">{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
     </nav>
   );

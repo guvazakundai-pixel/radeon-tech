@@ -88,7 +88,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setSearchOpen(true)}
-              className="p-2.5 rounded-xl text-text-secondary hover:text-white hover:bg-white/[0.03] transition-colors cursor-pointer bg-transparent border-none"
+              className="p-3 rounded-xl text-text-secondary hover:text-white hover:bg-white/[0.03] transition-colors cursor-pointer bg-transparent border-none"
               aria-label="Open search"
             >
               <Search size={18} />
@@ -105,7 +105,7 @@ export default function Navbar() {
             </a>
 
             <button
-              className="lg:hidden p-2.5 text-white hover:text-accent-blue transition-colors cursor-pointer bg-transparent border-none"
+              className="lg:hidden p-3 text-white hover:text-accent-blue transition-colors cursor-pointer bg-transparent border-none"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}

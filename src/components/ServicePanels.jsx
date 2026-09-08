@@ -44,26 +44,26 @@ export default function ServicePanels() {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <motion.div {...fadeIn(0)} className="text-center mb-16">
-          <h2 className="section-title">
-            What can we <span className="text-gradient">help you with</span>?
-          </h2>
-          <p className="section-subtitle mt-4">
-            Four ways to get started. Choose the path that fits your needs.
+        <motion.div {...fadeIn(0)} className="mb-20">
+          <p className="text-xs tracking-[0.2em] uppercase text-text-muted mb-4">
+            What we do
           </p>
+          <h2 className="section-title">
+            Choose your <span className="text-gradient">path</span>
+          </h2>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-4">
           {panels.map((panel, i) => {
             const Icon = panel.icon;
             return (
-              <motion.div key={panel.title} {...fadeIn(0.1 + i * 0.08)}>
+              <motion.div key={panel.title} {...fadeIn(0.08 + i * 0.06)}>
                 <Link to={panel.link} className="no-underline block h-full">
                   <div className="service-panel h-full flex flex-col">
                     <div className="panel-icon">
-                      <Icon size={24} />
+                      <Icon size={22} />
                     </div>
-                    <h3 className="font-heading text-lg font-semibold text-text-white mb-2">
+                    <h3 className="font-heading text-lg font-semibold text-text-white mb-2 tracking-tight">
                       {panel.title}
                     </h3>
                     <p className="text-text-secondary text-sm leading-relaxed flex-1">
