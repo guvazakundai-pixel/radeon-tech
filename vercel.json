@@ -7,7 +7,13 @@
     { "source": "/admin/:path*", "destination": "/index.html" },
     { "source": "/shop", "destination": "/index.html" },
     { "source": "/shop/:path*", "destination": "/index.html" },
+    { "source": "/store", "destination": "/index.html" },
+    { "source": "/store/:path*", "destination": "/index.html" },
     { "source": "/repair", "destination": "/index.html" },
-    { "source": "/pc-builder", "destination": "/index.html" }
+    { "source": "/repairs", "destination": "/index.html" },
+    { "source": "/services", "destination": "/index.html" },
+    { "source": "/pc-builder", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" }
   ]
 }
