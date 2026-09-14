@@ -1,8 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search, ShoppingCart } from "lucide-react";
-import { useContent } from "../hooks/useContent";
+import { Search, ShoppingCart, Loader2 } from "lucide-react";
 
 const fadeIn = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -14,11 +13,31 @@ const fadeIn = (delay = 0) => ({
 export default function StorePage() {
   const [searchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") || "");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState(searchParams.get("category") || "All");
   const [sortBy, setSortBy] = useState("featured");
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const { data: products } = useContent("products");
-  const items = useMemo(() => products || [], [products]);
+  const fetchProducts = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/products?limit=200");
+      if (!res.ok) throw new Error("Failed to load products");
+      const data = await res.json();
+      setProducts(data.products || []);
+    } catch (err) {
+      setError(err.message);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchProducts(); }, [fetchProducts]);
+
+  const items = products;
 
   const categories = useMemo(() => {
     const cats = new Set(items.map((p) => p.category || "Other"));
@@ -117,7 +136,30 @@ export default function StorePage() {
 
       <section className="relative pb-24 md:pb-32">
         <div className="relative z-10 max-w-6xl mx-auto px-6">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="glass-card overflow-hidden animate-pulse">
+                  <div className="aspect-[4/3] bg-white/5" />
+                  <div className="p-4 space-y-3">
+                    <div className="h-3 w-16 bg-white/5 rounded" />
+                    <div className="h-4 w-3/4 bg-white/5 rounded" />
+                    <div className="h-4 w-1/3 bg-white/5 rounded" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-20">
+              <p className="text-text-muted text-lg">We couldn&apos;t load products right now.</p>
+              <button
+                onClick={fetchProducts}
+                className="mt-5 inline-flex items-center gap-2 text-accent-blue text-sm hover:underline bg-transparent border-none cursor-pointer"
+              >
+                <Loader2 size={14} className="animate-spin" /> Try Again
+              </button>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-text-muted text-lg">No products found.</p>
               <button

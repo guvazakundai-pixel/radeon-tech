@@ -339,7 +339,7 @@ Please provide a quote for this build.`;
             Build Sent!
           </h2>
           <p className="text-text-secondary leading-relaxed mb-8">
-            Your custom PC build configuration has been sent via WhatsApp. We&apos;ll prepare a detailed quote for you.
+            WhatsApp is opening with your build configuration pre-filled. Press <strong className="text-text-white">Send</strong> in WhatsApp to confirm — we&apos;ll prepare a detailed quote for you.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a

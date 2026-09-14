@@ -209,7 +209,7 @@ Please assist.`;
             Request Submitted!
           </h2>
           <p className="text-text-secondary leading-relaxed mb-8">
-            Your repair request has been sent via WhatsApp. Our team will review it and get back to you promptly.
+            WhatsApp is opening with your repair request pre-filled. Press <strong className="text-text-white">Send</strong> in WhatsApp to confirm — our team will review it and get back to you promptly.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a

@@ -29,7 +29,7 @@ import ContactPage from "./pages/ContactPage";
 
 function SiteLayout() {
   return (
-    <div className="min-h-screen bg-bg-primary font-body text-text-primary">
+    <div className="min-h-screen font-body text-text-primary relative overflow-x-clip">
       <Background />
       <ErrorBoundary>
         <Navbar />
@@ -48,7 +48,7 @@ function SiteLayout() {
 
 function PageLayout({ children }) {
   return (
-    <div className="min-h-screen bg-bg-primary font-body text-text-primary">
+    <div className="min-h-screen font-body text-text-primary relative overflow-x-clip">
       <Background />
       <ErrorBoundary>
         <Navbar />

@@ -81,7 +81,7 @@ function ProductCard({ product, index }) {
           </div>
         ) : (
           <div className="h-48 flex items-center justify-center bg-gradient-to-br from-accent-purple/5 to-accent-blue/5 relative">
-            <categoryIcon className="w-14 h-14 text-accent-purple/25" />
+            <Package className="w-14 h-14 text-accent-purple/25" />
             {product.onSale && (
               <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-500 text-white shadow-lg shadow-red-500/30">
                 Sale

@@ -36,6 +36,13 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen, searchOpen]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handler = (e) => { if (e.key === "Escape") setMobileOpen(false); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [mobileOpen]);
+
   const handleSearch = useCallback((e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
@@ -47,10 +54,10 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
           scrolled
-            ? "bg-[#0A0A0A]/92 border-b border-white/[0.04]"
-            : "bg-transparent"
+            ? "bg-[#0A0A0A] border-b border-white/[0.04]"
+            : "bg-transparent border-b border-transparent"
         }`}
         role="navigation"
         aria-label="Main navigation"

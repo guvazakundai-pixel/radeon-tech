@@ -25,6 +25,7 @@
 html {
   background: #070708;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -63,9 +64,10 @@ body {
 .bg-godrays {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  will-change: transform;
 }
 
 .bg-godrays::before {
@@ -78,10 +80,10 @@ body {
 
 .bg-godrays .ray-1 {
   position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 80%;
-  height: 140%;
+  top: -5%;
+  right: -5%;
+  width: 70%;
+  height: 110%;
   background: linear-gradient(
     135deg,
     transparent 0%,
@@ -92,15 +94,14 @@ body {
   );
   transform: rotate(-15deg);
   z-index: 1;
-  animation: rayBreath 24s ease-in-out infinite;
 }
 
 .bg-godrays .ray-2 {
   position: absolute;
-  top: -10%;
+  top: -5%;
   right: 5%;
-  width: 60%;
-  height: 120%;
+  width: 55%;
+  height: 105%;
   background: linear-gradient(
     140deg,
     transparent 0%,
@@ -111,16 +112,14 @@ body {
   );
   transform: rotate(-20deg);
   z-index: 2;
-  animation: rayBreath 28s ease-in-out infinite;
-  animation-delay: -6s;
 }
 
 .bg-godrays .ray-3 {
   position: absolute;
   top: 10%;
   right: -5%;
-  width: 50%;
-  height: 100%;
+  width: 45%;
+  height: 90%;
   background: linear-gradient(
     130deg,
     transparent 0%,
@@ -131,8 +130,6 @@ body {
   );
   transform: rotate(-25deg);
   z-index: 1;
-  animation: rayBreath 32s ease-in-out infinite;
-  animation-delay: -12s;
 }
 
 .bg-godrays .haze {
@@ -148,17 +145,6 @@ body {
     transparent 72%
   );
   z-index: 3;
-  animation: hazeBreath 18s ease-in-out infinite;
-}
-
-@keyframes rayBreath {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 0.4; }
-}
-
-@keyframes hazeBreath {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 0.5; }
 }
 
 /* ============================================
